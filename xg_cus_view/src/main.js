@@ -13,6 +13,9 @@ Vue.prototype.$ajax = axios
 
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
+
+import './assets/css/style.css';
+
 Vue.use(MintUI);
 
 
