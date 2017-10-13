@@ -26,6 +26,11 @@ export default new Router({
       path: '/addbank',
       name: 'addbank',
       component: resolve => require(['../components/bankcard/addbank.vue'], resolve)
+    },
+    {
+      path: '/applycredit',
+        name: 'applycredit',
+      component: resolve => require(['../components/credit/credit_apply.vue'], resolve)
     }
   ]
 })
