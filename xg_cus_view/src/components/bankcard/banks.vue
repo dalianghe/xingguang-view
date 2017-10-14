@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import { Toast, MessageBox } from 'mint-ui';
+
   export default {
     name: 'register',
     data() {
@@ -54,19 +54,19 @@
         MessageBox.confirm('确定要解绑银行卡吗?').then(action => {
           this.$http.delete('/bank/cards/' + id)
             .then(function (response) {
-              if(response.bizCode == 0){
+              if (response.bizCode == 0) {
                 for (var bank of vm.bankList) {
-                  if(bank.id == id){
+                  if (bank.id == id) {
                     bank.cusBankCard.status = 2;
                     break;
                   }
                 }
-                Toast("解绑成功!");
-              }else{
-                Toast("解绑失败!");
+                vm.$toast("解绑成功!");
+              } else {
+                vm.$toast("解绑失败!");
               }
             })
-        }).catch(err  =>{
+        }).catch(err => {
 
         });
       },
@@ -197,11 +197,14 @@
   .slide-fade-enter-active {
     transition: all .3s ease;
   }
+
   .slide-fade-leave-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
+
   .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    /* .slide-fade-leave-active for below version 2.1.8 */
+  {
     transform: translateX(10px);
     opacity: 0;
   }
@@ -210,11 +213,14 @@
     display: inline-block;
     margin-right: 10px;
   }
+
   .list-enter-active, .list-leave-active {
     transition: all 1s;
   }
+
   .list-enter, .list-leave-to
-    /* .list-leave-active for below version 2.1.8 */ {
+    /* .list-leave-active for below version 2.1.8 */
+  {
     opacity: 0;
     transform: translateX(30px);
   }
@@ -222,9 +228,11 @@
   .bounce-enter-active {
     animation: bounce-in .8s;
   }
+
   .bounce-leave-active {
     animation: bounce-out 1s reverse;
   }
+
   @keyframes bounce-in {
     0% {
       transform: scale(0.5);

@@ -1,67 +1,76 @@
 <template>
-  <div class="credit_apply">
-    <mt-radio
-      title="单选框列表"
-      v-model="value"
-      :options="options">
-    </mt-radio>
-
-    性别<input type="text" v-model="data.sex"/>
-    收入<input type="text" v-model="data.income"/>
-    职业<input type="text" v-model="data.occupation"/>
-    学历<input type="text" v-model="data.education"/>
-    联系人姓名<input type="text" v-model="data.linkName"/>
-    联系人关系<input type="text" v-model="data.relationId"/>
-    联系人电话<input type="text" v-model="data.phone"/>
-    地址信息<input type="text" v-model="data.cusAddr"/>
-    业务员<input type="text" v-model="data.workUserName"/>
-
-    <button v-on:click="submit">提交</button>
+  <div class="box">
+    <dl>
+      <dt>性别</dt>
+      <dd v-for="option in options['101']">
+        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.sex" :value="option.code" /> <label>{{ option.name }}</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>学历</dt>
+      <dd v-for="option in options['104']">
+        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.education" :value="option.code" /> <label>{{ option.name }}</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>职业</dt>
+      <dd v-for="option in options['105']">
+        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.occupation" :value="option.code" /> <label>{{ option.name }}</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>收入</dt>
+      <dd v-for="option in options['103']">
+        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.income" :value="option.code" /> <label>{{ option.name }}</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>联系人姓名</dt>
+      <dd>
+        <input type="text" v-model="data.cusUserLink.linkName"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>联系人电话</dt>
+      <dd>
+        <input type="text" v-model="data.cusUserLink.phone"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>联系人关系</dt>
+      <dd v-for="option in options['102']">
+        <input :name="option.typeId" type="radio" v-model="data.cusUserLink.relationId" :value="option.code" /> <label>{{ option.name }}</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>地址信息</dt>
+      <dd>
+        <input type="text" v-model="data.cusUserInfo.cusAddr"/>
+      </dd>
+    </dl>
+    <button v-on:click="submit">确定</button>
   </div>
 </template>
 
 <script>
-  import { Radio } from 'mint-ui';
 
   export default {
     name: 'credit_apply',
     data() {
       return {
-        data: {},
-        options:[]
+        data: {
+          creditApply:{},
+          cusUserInfo:{},
+          cusUserLink:{}
+        },
+        options:{}
       }
     },
     mounted: function () {
-      this.options = [
-        {
-          label: '被禁用',
-          value: '值F',
-          disabled: true
-        },
-        {
-          label: '选项A',
-          value: '值A'
-        },
-        {
-          label: '选项B',
-          value: '值B'
-        }
-      ];
-      this.getCode();
+      this.getCodes();
     },
     methods: {
-      getCode: function (event) {
-        var vm = this;
-        this.$http.get('/codes', {
-          params: {
-            typeIds: "101,102,103,104,105"
-          }
-        })
-          .then(function (response) {
-            console.log(response);
-          })
-      },
-      submit: function (event) {
+      getCodes: function (event) {
         var vm = this;
         this.$http.get('/codes', {
           params: {
@@ -69,14 +78,39 @@
           }
         })
         .then(function (response) {
-
+          vm.options = response.data;
         })
+      },
+      submit: function (event) {
+        var vm = this;
+        this.$http.post('/credit/apply', vm.data)
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              vm.$toast("授信申请已提交,请耐心等待!");
+            }else{
+              vm.$toast(response.msg);
+            }
+          })
       }
     }
   }
 </script>
 
 <style scoped>
-  .credit_apply {
+  dl, dr, dd {
+    display: block;
   }
+  dl {
+    overflow: hidden;
+    width: 400px;
+  }
+  dt {
+    width: 60px;
+    float: left;
+  }
+  dd {
+    margin: 0;padding: 0;
+    float: left;
+  }
+
 </style>

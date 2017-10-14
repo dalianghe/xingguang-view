@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import {Toast, MessageBox} from 'mint-ui';
+
   export default {
     name: 'credit_info',
     data () {

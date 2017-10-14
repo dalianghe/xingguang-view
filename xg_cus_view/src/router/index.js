@@ -8,12 +8,17 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/register/:key',
       name: 'register',
       component: resolve => require(['../components/register.vue'], resolve)
     },
     {
-      path: '/login',
+      path: '/real',
+      name: 'real',
+      component: resolve => require(['../components/real.vue'], resolve)
+    },
+    {
+      path: '/',
       name: 'login',
       component: resolve => require(['../components/login.vue'], resolve)
     },
@@ -29,8 +34,13 @@ export default new Router({
     },
     {
       path: '/creditinfo',
-      name: 'creditinfo',
+        name: 'creditinfo',
       component: resolve => require(['../components/credit/credit_info.vue'], resolve)
+    },
+    {
+      path: '/creditapply',
+      name: 'creditapply',
+      component: resolve => require(['../components/credit/credit_apply.vue'], resolve)
     }
   ]
 })
