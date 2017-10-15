@@ -13,6 +13,8 @@ import 'mint-ui/lib/style.css';
 Vue.use(MintUI);
 import './assets/css/style.css';
 
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 
 /* eslint-disable no-new */
 new Vue({

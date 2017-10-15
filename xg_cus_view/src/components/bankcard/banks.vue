@@ -51,7 +51,7 @@
       },
       unbind: function (id) {
         var vm = this;
-        MessageBox.confirm('确定要解绑银行卡吗?').then(action => {
+        vm.$messagebox.confirm('确定要解绑银行卡吗?').then(action => {
           this.$http.delete('/bank/cards/' + id)
             .then(function (response) {
               if (response.bizCode == 0) {

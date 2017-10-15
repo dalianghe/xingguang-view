@@ -3,7 +3,9 @@
     <input type="text" v-model="data.phone"/>
     <input type="text" v-model="data.imgCode"/>
     <input type="text" v-model="data.smsCode"/>
-    <button v-on:click="submit">提交</button>
+    <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+    <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+    <button v-on:click="submit">确定</button>
   </div>
 </template>
 
@@ -42,6 +44,13 @@
           .catch(function (response) {
           });
       }
+    },
+    vuerify: {
+      username: {
+        test: /\w{4,}/,  // 自定义规则，可以是函数，正则或者全局注册的规则（填字符串）
+        message: '至少 4 位字符'
+      },
+      password: 'required' // 使用全局注册的规则
     }
   }
 </script>

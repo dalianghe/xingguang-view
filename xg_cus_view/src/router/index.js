@@ -6,6 +6,7 @@ import register from '@/components/register'
 Vue.use(Router)
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: '/register/:key',
@@ -41,6 +42,11 @@ export default new Router({
       path: '/creditapply',
       name: 'creditapply',
       component: resolve => require(['../components/credit/credit_apply.vue'], resolve)
+    },
+    {
+      path: '/my',
+        name: 'my',
+      component: resolve => require(['../components/my.vue'], resolve)
     }
   ]
 })
