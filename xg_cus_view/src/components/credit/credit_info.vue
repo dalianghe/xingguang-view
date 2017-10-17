@@ -10,7 +10,7 @@
     </p>
     <p>
       <label>已用额度</label>
-      <span>{{data.usedAmount}}</span>
+      <span>{{data.usedAmount || "0.00"}}</span>
     </p>
   </div>
 </template>
