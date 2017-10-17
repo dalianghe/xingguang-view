@@ -87,12 +87,16 @@
       },
       submit: function (event) {
         var vm = this;
-        this.$http.post('/credit/apply', vm.data)
+        this.$http.post('/wdrl/apply', vm.data)
           .then(function (response) {
             if (response.bizCode == 0) {
-              vm.$toast("授信申请已提交,请耐心等待!");
+              vm.$toast("提款申请已提交,请耐心等待!");
+            }else if(response.bizCode == 1){
+              vm.$toast("未发现授信记录!");
+            }else if(response.bizCode == 2){
+              vm.$toast("提款金额不能大于可用余额!");
             }else{
-              vm.$toast(response.msg);
+              vm.$toast("服务器繁忙!");
             }
           })
       }
