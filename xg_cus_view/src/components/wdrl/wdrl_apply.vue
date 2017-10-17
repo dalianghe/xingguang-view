@@ -28,21 +28,30 @@
         </select>
       </dd>
     </dl>
-
+    <dl>
+      <dt>期数</dt>
+      <dd>
+        <select v-model="data.termId">
+          <option v-for="obj in productTermOptions" :value="obj.id">{{obj.termNumber}}期-利率{{obj.rate}}%</option>
+        </select>
+      </dd>
+    </dl>
     <button v-on:click="submit">确定</button>
   </div>
 </template>
 
 <script>
-
+  var math = require('mathjs');
   export default {
-    name: 'credit_apply',
+    name: 'wdrl_apply',
     data() {
       return {
         data: {
         },
         bankCardOptions:{},
-        productOptions:{}
+        productOptions:[],
+        productTermOptions:[],
+        productTermOptionsMap:{}
       }
     },
     mounted: function () {
@@ -62,7 +71,19 @@
         this.$http.get('/products')
           .then(function (response) {
             vm.productOptions = response.data;
+            vm.$watch("data.productId", vm.setProductTermOptions);
+            for(var product of vm.productOptions){
+              let productTermInfoList = product.productTermInfoList;
+              for(var term of productTermInfoList){
+                term.rate = math.multiply(term.rate, 100);
+              }
+              vm.productTermOptionsMap[product.id] = product.productTermInfoList;
+            }
           })
+      },
+      setProductTermOptions: function (newVal, oldVal) {
+        var vm = this;
+        vm.productTermOptions = vm.productTermOptionsMap[newVal];
       },
       submit: function (event) {
         var vm = this;

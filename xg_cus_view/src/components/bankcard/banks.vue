@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="bank_box">
-      <transition-group name="bounce" tag="p">
+      <transition-group name="root" tag="p" mode="out-in">
         <div class="bank clears" v-for="obj in bankList" v-show="obj.cusBankCard.status == 1" key="obj.cusBankCard.id">
           <div class="icon_box">
             <img class="icon" src="static/img/bank/zhongguo.png"/>
@@ -192,69 +192,6 @@
 
   .clears {
     zoom: 1;
-  }
-
-  .slide-fade-enter-active {
-    transition: all .3s ease;
-  }
-
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */
-  {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-
-  .list-item {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .list-enter-active, .list-leave-active {
-    transition: all 1s;
-  }
-
-  .list-enter, .list-leave-to
-    /* .list-leave-active for below version 2.1.8 */
-  {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-
-  .bounce-enter-active {
-    animation: bounce-in .8s;
-  }
-
-  .bounce-leave-active {
-    animation: bounce-out 1s reverse;
-  }
-
-  @keyframes bounce-in {
-    0% {
-      transform: scale(0.5);
-    }
-    80% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  @keyframes bounce-out {
-    0% {
-      transform: scale(0);
-    }
-    90% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
   }
 
 </style>
