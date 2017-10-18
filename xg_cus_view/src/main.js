@@ -15,7 +15,8 @@ import './assets/css/style.css';
 
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
-
+import tools from './js/tools';
+Vue.use(tools);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

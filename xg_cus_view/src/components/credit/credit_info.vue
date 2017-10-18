@@ -2,15 +2,15 @@
   <div class="box">
     <p>
       <label>固定授信额度</label>
-      <span>{{data.finalAmount}}</span>
+      <span>{{data.finalAmount | formatMoney}}</span>
     </p>
     <p>
       <label>可用额度</label>
-      <span>{{data.unusedAmount}}</span>
+      <span>{{data.unusedAmount | formatMoney}}</span>
     </p>
     <p>
       <label>已用额度</label>
-      <span>{{data.usedAmount || "0.00"}}</span>
+      <span>{{data.usedAmount | formatMoney}}</span>
     </p>
   </div>
 </template>
