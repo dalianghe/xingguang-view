@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:8081/';
+axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(function (config) {
     let token = localStorage.getItem("token");
     if(token){
