@@ -11,6 +11,7 @@
 
 <script>
   import wx from 'weixin-js-sdk';
+//  var wx = require('weixin-js-sdk');
   export default {
     name: 'register',
     data() {
@@ -60,21 +61,23 @@
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名
-                jsApiList: this.jsApiList //必填，需要使用的JS接口列表
+                jsApiList: ["getLocation"] //必填，需要使用的JS接口列表
               });
               console.info(1);
               wx.ready(function(){
+                console.info(2);
+                wx.getLocation({
+                  success: function (res) {
+                    alert("小宝鸽获取地理位置成功，经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
+                    console.info("小宝鸽获取地理位置成功，经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
+                  },
+                  fail: function(error) {
+                    console.info("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
+                  }
+                });
+                console.info(3);
               });
-              console.info(2);
-              wx.getLocation({
-                success: function (res) {
-                  console.info("小宝鸽获取地理位置成功，经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
-                },
-                fail: function(error) {
-                  console.info("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
-                }
-              });
-              console.info(3);
+              console.info(4);
             } else {
               vm.$toast(response.msg);
             }
