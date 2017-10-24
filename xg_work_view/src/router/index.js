@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Hello from '@/components/Hello'
-import register from '@/components/register'
+import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
@@ -11,7 +10,7 @@ export default new Router({
     {
       path: '/register/:key',
       name: 'register',
-      component: register
+      component: resolve => require(['../components/register.vue'], resolve)
     },
     {
       path: '/real',
@@ -35,7 +34,7 @@ export default new Router({
     },
     {
       path: '/creditinfo',
-        name: 'creditinfo',
+      name: 'creditinfo',
       component: resolve => require(['../components/credit/credit_info.vue'], resolve)
     },
     {
@@ -45,12 +44,12 @@ export default new Router({
     },
     {
       path: '/my',
-        name: 'my',
+      name: 'my',
       component: resolve => require(['../components/my.vue'], resolve)
     },
     {
       path: '/wdrlapply',
-        name: 'wdrlapply',
+      name: 'wdrlapply',
       component: resolve => require(['../components/wdrl/wdrl_apply.vue'], resolve)
     }
   ]
