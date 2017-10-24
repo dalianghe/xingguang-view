@@ -25,7 +25,6 @@
       }
     },
     created: function () {
-      this.data.workUserId = this.$route.params.key;
       console.info(wx);
       this.initWxConfig();
     },

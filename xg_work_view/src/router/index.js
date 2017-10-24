@@ -8,7 +8,7 @@ export default new Router({
 
   routes: [
     {
-      path: '/register/:key',
+      path: '/register',
       name: 'register',
       component: resolve => require(['../components/register.vue'], resolve)
     },

@@ -7,9 +7,7 @@
       </dd>
     </dl>
 
-    <router-link to="/">我的授信</router-link>
-    <router-link to="/">我的借款</router-link>
-    <router-link to="/banks">银行卡管理</router-link>
+    <router-link to="/">我的客户</router-link>
     <router-link to="/">借款攻略</router-link>
     <router-link to="/">了解星光</router-link>
     <router-link to="/">常见问题</router-link>
