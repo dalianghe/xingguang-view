@@ -12,9 +12,9 @@
         <input type="text" v-model="data.idNo"/>
       </dd>
     </dl>
-    <input type="file" ref="img1"/>
-    <input type="file" ref="img2"/>
-    <input type="file" ref="img3"/>
+    <input type="file" ref="realImg1"/>
+    <input type="file" ref="realImg2"/>
+    <input type="file" ref="realImg3"/>
     <button v-on:click="submit">确定</button>
   </div>
 </template>
@@ -35,9 +35,9 @@
         var vm = this;
         let formData = new window.FormData()
         this.$tools.cloneFormData(formData, vm.data);
-        formData.append('img1', vm.$refs.img1.files[0]);
-        formData.append('img2', vm.$refs.img2.files[0]);
-        formData.append('img3', vm.$refs.img3.files[0]);
+        formData.append('img1', vm.$refs.realImg1.files[0]);
+        formData.append('img2', vm.$refs.realImg2.files[0]);
+        formData.append('img3', vm.$refs.realImg3.files[0]);
         this.$http.post('/auth/real', formData, {
           headers: {'Content-Type': 'multipart/form-data'}
         })
