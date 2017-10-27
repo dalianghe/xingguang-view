@@ -12,7 +12,9 @@
         <input type="text" v-model="data.idNo"/>
       </dd>
     </dl>
-
+    <input type="file" ref="img1"/>
+    <input type="file" ref="img2"/>
+    <input type="file" ref="img3"/>
     <button v-on:click="submit">确定</button>
   </div>
 </template>
@@ -31,7 +33,14 @@
     methods: {
       submit: function (event) {
         var vm = this;
-        this.$http.post('/auth/real', vm.data)
+        let formData = new window.FormData()
+        this.$tools.cloneFormData(formData, vm.data);
+        formData.append('img1', vm.$refs.img1.files[0]);
+        formData.append('img2', vm.$refs.img2.files[0]);
+        formData.append('img3', vm.$refs.img3.files[0]);
+        this.$http.post('/auth/real', formData, {
+          headers: {'Content-Type': 'multipart/form-data'}
+        })
           .then(function (response) {
             if (response.bizCode == 0) {
               vm.$toast("认证成功");

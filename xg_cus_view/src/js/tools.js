@@ -62,6 +62,11 @@ export default {
           num = num.toFixed(2);
         }
         return num;
+      },
+      cloneFormData: function(formData, obj) {
+        for(let o in obj){
+          formData.append(o, obj[o]);
+        }
       }
 
     }
