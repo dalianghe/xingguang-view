@@ -52,6 +52,11 @@ export default new Router({
       path: '/wdrlapply',
         name: 'wdrlapply',
       component: resolve => require(['../components/wdrl/wdrl_apply.vue'], resolve)
+    },
+    {
+      path: '/wdrllist',
+        name: 'wdrllist',
+      component: resolve => require(['../components/wdrl/wdrl_list.vue'], resolve)
     }
   ]
 })

@@ -44,12 +44,16 @@
 
 <style scoped>
   .box {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0rem;
-    font-size: 1rem;
-    font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "宋体";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-image: linear-gradient(0deg,
+    rgba(248, 86, 151, 1) 0%,
+    rgba(242, 80, 64, 1) 100%);
   }
+
+
   dt,dd{display: inline-block}
 </style>
