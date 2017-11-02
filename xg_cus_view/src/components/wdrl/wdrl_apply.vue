@@ -20,22 +20,6 @@
         <input type="text" v-model="data.reservePhone"/>
       </dd>
     </dl>
-    <dl>
-      <dt>产品</dt>
-      <dd>
-        <select v-model="data.productId">
-          <option v-for="obj in productOptions" :value="obj.id">{{obj.name}}</option>
-        </select>
-      </dd>
-    </dl>
-    <dl>
-      <dt>期数</dt>
-      <dd>
-        <select v-model="data.termId">
-          <option v-for="obj in productTermOptions" :value="obj.id">{{obj.termNumber}}期-利率{{obj.rate}}%</option>
-        </select>
-      </dd>
-    </dl>
     <button v-on:click="submit">确定</button>
   </div>
 </template>
@@ -56,7 +40,6 @@
     },
     mounted: function () {
       this.getBankCords();
-      this.getProducts();
     },
     methods: {
       getBankCords: function (event) {
@@ -66,6 +49,8 @@
           vm.bankCardOptions = response.data;
         })
       },
+      /**
+      //留着联动参考--开始--
       getProducts: function (event) {
         var vm = this;
         this.$http.get('/products')
@@ -85,6 +70,8 @@
         var vm = this;
         vm.productTermOptions = vm.productTermOptionsMap[newVal];
       },
+      //留着联动参考--结束--
+      */
       submit: function (event) {
         var vm = this;
         this.$http.post('/wdrl/apply', vm.data)

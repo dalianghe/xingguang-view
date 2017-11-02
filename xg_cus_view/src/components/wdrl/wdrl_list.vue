@@ -1,9 +1,11 @@
 <template>
   <div class="box">
-    <div class="row clears">
+    <div class="row clears" v-for="obj in wdrlList">
       <div class="title clears">
         <div class="left clears">订单号：2226833</div>
-        <div class="right right1 clears">未结清</div>
+        <div class="right right1 clears" v-if="obj.">未结清</div>
+        <div class="right right2 clears">已结清</div>
+        <div class="right right3 clears">已逾期</div>
       </div>
       <div class="content">
         <div class="left">
@@ -29,7 +31,7 @@
     <div class="row clears">
       <div class="title clears">
         <div class="left clears">订单号：2226833</div>
-        <div class="right right2 clears">未结清</div>
+        <div class="right right2 clears">已结清</div>
       </div>
       <div class="content">
         <div class="left">
@@ -55,7 +57,7 @@
     <div class="row clears">
       <div class="title clears">
         <div class="left clears">订单号：2226833</div>
-        <div class="right right3 clears">未结清</div>
+        <div class="right right3 clears">已逾期</div>
       </div>
       <div class="content">
         <div class="left">
@@ -89,57 +91,19 @@
       return {
         data: {
         },
-        bankCardOptions:{},
-        productOptions:[],
-        productTermOptions:[],
-        productTermOptionsMap:{}
+        wdrlList:[]
       }
     },
     mounted: function () {
-      this.getBankCords();
-      this.getProducts();
+      this.getList();
     },
     methods: {
-      getBankCords: function (event) {
+      getList: function (event) {
         var vm = this;
-        this.$http.get('/bank/cards')
+        this.$http.get('/wdrl/apply/list')
         .then(function (response) {
-          vm.bankCardOptions = response.data;
+          vm.wdrlList = response.data;
         })
-      },
-      getProducts: function (event) {
-        var vm = this;
-        this.$http.get('/products')
-          .then(function (response) {
-            vm.productOptions = response.data;
-            vm.$watch("data.productId", vm.setProductTermOptions);
-            for(var product of vm.productOptions){
-              let productTermInfoList = product.productTermInfoList;
-              for(var term of productTermInfoList){
-                term.rate = math.multiply(term.rate, 100);
-              }
-              vm.productTermOptionsMap[product.id] = product.productTermInfoList;
-            }
-          })
-      },
-      setProductTermOptions: function (newVal, oldVal) {
-        var vm = this;
-        vm.productTermOptions = vm.productTermOptionsMap[newVal];
-      },
-      submit: function (event) {
-        var vm = this;
-        this.$http.post('/wdrl/apply', vm.data)
-          .then(function (response) {
-            if (response.bizCode == 0) {
-              vm.$toast("提款申请已提交,请耐心等待!");
-            }else if(response.bizCode == 1){
-              vm.$toast("未发现授信记录!");
-            }else if(response.bizCode == 2){
-              vm.$toast("提款金额不能大于可用余额!");
-            }else{
-              vm.$toast("服务器繁忙!");
-            }
-          })
       }
     }
   }
