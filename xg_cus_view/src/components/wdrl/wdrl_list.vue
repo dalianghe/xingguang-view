@@ -2,84 +2,33 @@
   <div class="box">
     <div class="row clears" v-for="obj in wdrlList">
       <div class="title clears">
-        <div class="left clears">订单号：2226833</div>
-        <div class="right right1 clears" v-if="obj.">未结清</div>
-        <div class="right right2 clears">已结清</div>
-        <div class="right right3 clears">已逾期</div>
+        <div class="left clears">订单号：{{8000000000 + obj.id}}</div>
+        <div class="right right1 clears" v-if="obj.status == 10 || obj.status == 20">待放款</div>
+        <div class="right right2 clears" v-else-if="obj.status == 25 || obj.status == 35">被拒绝</div>
+        <div class="right right1 clears" v-else-if="obj.status == 30">未结清</div>
+        <div class="right right2 clears" v-else-if="obj.status == 45">已逾期</div>
+        <div class="right right3 clears" v-else-if="obj.status == 40">已结清</div>
       </div>
       <div class="content">
         <div class="left">
           <p>
             <label>提款金额</label>
-            <span>30000.00</span>
+            <span>{{obj.amount | formatMoney}}</span>
           </p>
           <p>
-            <label>提款日起</label>
-            <span>2017-10-29</span>
+            <label>申请日期</label>
+            <span>{{obj.createTime | formatTime}}</span>
           </p>
           <p>
-            <label>到期日期</label>
-            <span>2017-12-29</span>
+            <label>放款日期</label>
+            <span>{{obj.issueTime | formatTime}}</span>
           </p>
         </div>
         <div class="right">
-          <a>还款记录</a>
+          <a>还款计划</a>
         </div>
       </div>
     </div>
-
-    <div class="row clears">
-      <div class="title clears">
-        <div class="left clears">订单号：2226833</div>
-        <div class="right right2 clears">已结清</div>
-      </div>
-      <div class="content">
-        <div class="left">
-          <p>
-            <label>提款金额</label>
-            <span>30000.00</span>
-          </p>
-          <p>
-            <label>提款日起</label>
-            <span>2017-10-29</span>
-          </p>
-          <p>
-            <label>到期日期</label>
-            <span>2017-12-29</span>
-          </p>
-        </div>
-        <div class="right">
-          <a>还款记录</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="row clears">
-      <div class="title clears">
-        <div class="left clears">订单号：2226833</div>
-        <div class="right right3 clears">已逾期</div>
-      </div>
-      <div class="content">
-        <div class="left">
-          <p>
-            <label>提款金额</label>
-            <span>30000.00</span>
-          </p>
-          <p>
-            <label>提款日起</label>
-            <span>2017-10-29</span>
-          </p>
-          <p>
-            <label>到期日期</label>
-            <span>2017-12-29</span>
-          </p>
-        </div>
-        <div class="right">
-          <a>还款记录</a>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 

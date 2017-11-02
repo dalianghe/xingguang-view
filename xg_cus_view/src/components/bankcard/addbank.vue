@@ -44,7 +44,7 @@
               vm.$toast("银行卡已存在");
             } else {
               vm.$toast("银行卡绑定成功");
-              vm.$router.push("banks");
+              vm.$router.push("banklist");
             }
           })
           .catch(function (response) {

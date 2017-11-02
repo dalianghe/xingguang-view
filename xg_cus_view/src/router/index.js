@@ -24,9 +24,9 @@ export default new Router({
       component: resolve => require(['../components/login.vue'], resolve)
     },
     {
-      path: '/banks',
-      name: 'banks',
-      component: resolve => require(['../components/bankcard/banks.vue'], resolve)
+      path: '/banklist',
+      name: 'banklist',
+      component: resolve => require(['../components/bankcard/bank_list.vue'], resolve)
     },
     {
       path: '/addbank',
