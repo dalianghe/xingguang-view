@@ -12,16 +12,36 @@
         <p>
           <input type="text" v-model="data.smsCode"/>
         </p>
+        <!--<p>-->
+          <!--<input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">-->
+        <!--<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>-->
+        <!--</p>-->
         <p>
-          <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
-        <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-        </p>
-        <p>
-          <button v-on:click="submit">确定</button>
+          <a v-on:click="submit">确定</a>
         </p>
       </div>
     </div>
-    <div class="logo2"></div>
+    <div class="logo2">
+      <div class="bottom">
+        <label class="tag">无担保</label>
+        <label class="tag1"></label>
+        <label class="tag">无抵押</label>
+        <label class="tag1"></label>
+        <label class="tag">纯信用</label>
+        <label class="tag1"></label>
+        <label class="tag">审批快</label>
+        <label class="tag1"></label>
+        <label class="tag">利率低</label>
+      </div>
+    </div>
+    <div class="jb1"></div>
+    <div class="jb2"></div>
+    <div class="jb3"></div>
+    <div class="jb4"></div>
+    <div class="jb5"></div>
+    <div class="jb6"></div>
+    <div class="jb7"></div>
+    <div class="jb8"></div>
   </div>
 </template>
 
@@ -126,10 +146,12 @@
 
   .box .logo1{
     position: absolute;
-    top: 8rem;
+    top: 2rem;
     left: 0px;
     right: 0px;
-    height: 10rem;
+    height: 20rem;
+    background:url(/static/img/register/logo1.png) no-repeat center center;
+    background-size: 100% auto
   }
 
   .box .content{
@@ -141,8 +163,32 @@
   }
 
   .box .content .content1{
-    width: 10rem;
+    width: 20rem;
     margin: 0 auto;
+    align-content: center;
+    text-align:center
+  }
+
+  .box .content .content1 input{
+    width: 20rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #CCC;
+    line-height: 2rem;
+    text-indent: 1rem;
+  }
+
+  .box .content .content1 a{
+    display: block;
+    width: 20rem;
+    height: 2rem;
+    background-color: rgba(255, 123, 183, 1);
+    box-shadow: 0px 7px 0px 0px
+    rgba(226, 56, 106, 0.4);
+    border-radius: 0.4rem;
+    color: #ffffff;
+    line-height: 2rem;
   }
 
   .box .logo2{
@@ -151,6 +197,129 @@
     right: 0px;
     bottom: 0px;
     height: 10rem;
+    background:url(/static/img/register/logo2.png) no-repeat center center;
+    background-size: 100% auto;
+    vertical-align:bottom;
+  }
+
+  .box .logo2 .bottom{
+    position: absolute;
+    bottom: 1.2rem;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto;
+    align-content: center;
+    text-align:center;
+  }
+
+  .box .logo2 .bottom .tag{
+    display: inline-block;
+    letter-spacing: 0px;
+    color: #ffedf4;
+    width: 3.6rem;
+  }
+
+  .box .logo2 .bottom .tag1{
+    display: inline-block;
+    height: 0.6rem;
+    border-left: 1px solid #ffedf4;
+  }
+
+  .box .jb1{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .box .jb2{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 7rem;
+    left: 12rem;
+  }
+
+  .box .jb3{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 11rem;
+    left: 11rem;
+  }
+
+  .box .jb4{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 3rem;
+    left: 8rem;
+  }
+
+  .box .jb5{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 6rem;
+    left: 11rem;
+  }
+
+  .box .jb6{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 4rem;
+    left: 8rem;
+  }
+
+  .box .jb7{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 5rem;
+    left: 10rem;
+  }
+
+  .box .jb8{
+    position: absolute;
+    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background-size: contain;
+    width: 20rem;
+    height: 3rem;
+    top: 2rem;
+    left: 20rem;
+  }
+
+  @-webkit-keyframes twinkling{
+    0%{
+      opacity:0.1;
+    }
+    100%{
+      opacity:1;
+    }
+  }
+  @keyframes twinkling{
+    0%{
+      opacity:0.1;
+    }
+    100%{
+      opacity:1;
+    }
   }
 
 </style>
