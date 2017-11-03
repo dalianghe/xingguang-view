@@ -1,20 +1,24 @@
 <template>
   <div class="box">
-    <dl>
-      <dt>姓名</dt>
-      <dd>
-        <input type="text" v-model="data.name"/>
-      </dd>
-    </dl>
-    <dl>
-      <dt>身份这号</dt>
-      <dd>
-        <input type="text" v-model="data.idNo"/>
-      </dd>
-    </dl>
-    <input type="file" ref="realImg1"/>
-    <input type="file" ref="realImg2"/>
-    <input type="file" ref="realImg3"/>
+    <div class="content">
+      <div class="input">
+        <dl>
+          <dt>姓名</dt>
+          <dd>
+            <input type="text" v-model="data.name"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>身份这号</dt>
+          <dd>
+            <input type="text" v-model="data.idNo"/>
+          </dd>
+        </dl>
+      </div>
+      <input type="file" ref="realImg1"/>
+      <input type="file" ref="realImg2"/>
+      <input type="file" ref="realImg3"/>
+    </div>
     <button v-on:click="submit">确定</button>
   </div>
 </template>
@@ -55,6 +59,11 @@
 </script>
 
 <style scoped>
+
+  .box{
+
+  }
+
   dl, dr, dd {
     display: block;
   }
@@ -67,12 +76,14 @@
   dt {
     width: 60px;
     float: left;
+    color: #999999;
   }
 
   dd {
     margin: 0;
     padding: 0;
     float: left;
+    color: #333333;
   }
 
 </style>
