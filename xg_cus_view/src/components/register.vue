@@ -1,11 +1,27 @@
 <template>
-  <div class="register">
-    <input type="text" v-model="data.phone"/>
-    <input type="text" v-model="data.imgCode"/>
-    <input type="text" v-model="data.smsCode"/>
-    <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
-    <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-    <button v-on:click="submit">确定</button>
+  <div class="box">
+    <div class="logo1"></div>
+    <div class="content">
+      <div class="content1">
+        <p>
+          <input type="text" v-model="data.phone"/>
+        </p>
+        <p>
+          <input type="text" v-model="data.imgCode"/>
+        </p>
+        <p>
+          <input type="text" v-model="data.smsCode"/>
+        </p>
+        <p>
+          <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
+        <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+        </p>
+        <p>
+          <button v-on:click="submit">确定</button>
+        </p>
+      </div>
+    </div>
+    <div class="logo2"></div>
   </div>
 </template>
 
@@ -97,6 +113,44 @@
 </script>
 
 <style scoped>
-  .register {
+  .box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-image: linear-gradient(0deg,
+    rgba(252, 72, 159, 1) 0%,
+    rgba(245, 79, 57, 1) 100%);
   }
+
+  .box .logo1{
+    position: absolute;
+    top: 8rem;
+    left: 0px;
+    right: 0px;
+    height: 10rem;
+  }
+
+  .box .content{
+    position: absolute;
+    top: 20rem;
+    left: 0px;
+    right: 0px;
+    height: 12rem;
+  }
+
+  .box .content .content1{
+    width: 10rem;
+    margin: 0 auto;
+  }
+
+  .box .logo2{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 10rem;
+  }
+
 </style>
