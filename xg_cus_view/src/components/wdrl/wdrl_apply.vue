@@ -1,26 +1,34 @@
 <template>
   <div class="box">
-    <dl>
-      <dt>提款额度</dt>
-      <dd>
-        <input type="type" v-model="data.amount"/>
-      </dd>
-    </dl>
-    <dl>
-      <dt>银行卡</dt>
-      <dd>
-        <select v-model="data.bankCardId">
-          <option v-for="obj in bankCardOptions" :value="obj.id">{{obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo}}</option>
-        </select>
-      </dd>
-    </dl>
-    <dl>
-      <dt>预留手机号</dt>
-      <dd>
-        <input type="text" v-model="data.reservePhone"/>
-      </dd>
-    </dl>
-    <button v-on:click="submit">确定</button>
+    <div class="content clears">
+      <div class="input">
+        <dl>
+          <dt>提款额度</dt>
+          <dd>
+            <input class="text" type="type" v-model="data.amount"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>银行卡</dt>
+          <dd>
+            <select v-model="data.bankCardId">
+              <option v-for="obj in bankCardOptions" :value="obj.id">{{obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo}}</option>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt>预留手机号</dt>
+          <dd>
+            <input class="text" type="text" v-model="data.reservePhone"/>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="btns">
+      <div class="btnbox">
+        <a v-on:click="submit">确定</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,20 +100,5 @@
 </script>
 
 <style scoped>
-  dl, dr, dd {
-    display: block;
-  }
-  dl {
-    overflow: hidden;
-    width: 400px;
-  }
-  dt {
-    width: 60px;
-    float: left;
-  }
-  dd {
-    margin: 0;padding: 0;
-    float: left;
-  }
 
 </style>

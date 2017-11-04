@@ -28,28 +28,12 @@
     data() {
       return {
         data: {
-          creditApply:{},
-          cusUserInfo:{},
-          cusUserLink:{}
-        },
-        options:{}
+        }
       }
     },
     mounted: function () {
-      this.getCodes();
     },
     methods: {
-      getCodes: function (event) {
-        var vm = this;
-        this.$http.get('/codes', {
-          params: {
-            typeIds: "101,102,103,104,105"
-          }
-        })
-        .then(function (response) {
-          vm.options = response.data;
-        })
-      },
       submit: function (event) {
         var vm = this;
         this.$http.post('/credit/apply', vm.data)
