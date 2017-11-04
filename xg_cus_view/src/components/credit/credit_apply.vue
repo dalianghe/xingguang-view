@@ -1,54 +1,23 @@
 <template>
   <div class="box">
-    <dl>
-      <dt>性别</dt>
-      <dd v-for="option in options['101']">
-        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.sex" :value="option.code" /> <label>{{ option.name }}</label>
-      </dd>
-    </dl>
-    <dl>
-      <dt>学历</dt>
-      <dd v-for="option in options['104']">
-        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.education" :value="option.code" /> <label>{{ option.name }}</label>
-      </dd>
-    </dl>
-    <dl>
-      <dt>职业</dt>
-      <dd v-for="option in options['105']">
-        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.occupation" :value="option.code" /> <label>{{ option.name }}</label>
-      </dd>
-    </dl>
-    <dl>
-      <dt>收入</dt>
-      <dd v-for="option in options['103']">
-        <input :name="option.typeId" type="radio" v-model="data.cusUserInfo.income" :value="option.code" /> <label>{{ option.name }}</label>
-      </dd>
-    </dl>
-    <dl>
-      <dt>联系人姓名</dt>
-      <dd>
-        <input type="text" v-model="data.cusUserLink.linkName"/>
-      </dd>
-    </dl>
-    <dl>
-      <dt>联系人电话</dt>
-      <dd>
-        <input type="text" v-model="data.cusUserLink.phone"/>
-      </dd>
-    </dl>
-    <dl>
-      <dt>联系人关系</dt>
-      <dd v-for="option in options['102']">
-        <input :name="option.typeId" type="radio" v-model="data.cusUserLink.relationId" :value="option.code" /> <label>{{ option.name }}</label>
-      </dd>
-    </dl>
-    <dl>
-      <dt>地址信息</dt>
-      <dd>
-        <input type="text" v-model="data.cusUserInfo.cusAddr"/>
-      </dd>
-    </dl>
-    <button v-on:click="submit">确定</button>
+    <div class="bzbox">
+      <div class="bz bzimg"></div>
+    </div>
+    <div class="content">
+      <div class="input">
+        <dl>
+          <dt>服务密码</dt>
+          <dd>
+            <input class="text" type="password"/>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="btns">
+      <div class="btnbox">
+        <a v-on:click="submit">完成</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,20 +66,8 @@
 </script>
 
 <style scoped>
-  dl, dr, dd {
-    display: block;
+  .box .bzimg{
+    background:url(/static/img/information/bz.png) no-repeat center center;
+    background-size: 100% auto
   }
-  dl {
-    overflow: hidden;
-    width: 400px;
-  }
-  dt {
-    width: 60px;
-    float: left;
-  }
-  dd {
-    margin: 0;padding: 0;
-    float: left;
-  }
-
 </style>

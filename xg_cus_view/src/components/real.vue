@@ -1,5 +1,8 @@
 <template>
   <div class="box">
+    <div class="bzbox">
+      <div class="bz bzimg"></div>
+    </div>
     <div class="content">
       <div class="input">
         <dl>
@@ -15,11 +18,29 @@
           </dd>
         </dl>
       </div>
-      <div class="img">
-        <input type="file" ref="realImg1"/>
-        <input type="file" ref="realImg2"/>
-        <input type="file" ref="realImg3"/>
-        <button v-on:click="submit">确定</button>
+      <div class="imgs">
+        <div class="imgbox">
+          <div class="idno">
+            <div class="idno1" ref="realImgDiv1" v-on:click="selectImg('realImg1')"></div>
+            <label>身份证正面</label>
+          </div>
+          <div class="idno">
+            <div class="idno2" ref="realImgDiv2" v-on:click="selectImg('realImg2')"></div>
+            <label>身份证背面</label>
+          </div>
+          <div class="idno">
+            <div class="idno3" ref="realImgDiv3" v-on:click="selectImg('realImg3')"></div>
+            <label>手持身份证</label>
+          </div>
+          <input v-show="false" type="file" ref="realImg1" v-on:change="changeImg('realImgDiv1')"/>
+          <input v-show="false" type="file" ref="realImg2" v-on:change="changeImg('realImgDiv2')"/>
+          <input v-show="false" type="file" ref="realImg3" v-on:change="changeImg('realImgDiv3')"/>
+        </div>
+      </div>
+      <div class="btns">
+        <div class="btnbox">
+          <a v-on:click="submit">下一步</a>
+        </div>
       </div>
     </div>
   </div>
@@ -37,6 +58,19 @@
     mounted: function () {
     },
     methods: {
+      selectImg: function(img){
+        let imgFile = this.$refs[img];
+        imgFile.click();
+      },
+      changeImg: function(imgDiv){
+        var imgDiv = this.$refs[imgDiv];
+        var imgFile = event.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(imgFile);
+        reader.onload=function(e){
+          imgDiv.setAttribute('style', 'background: ' + 'url('+e.target.result+') no-repeat center center; background-size: contain');
+        }
+      },
       submit: function (event) {
         var vm = this;
         let formData = new window.FormData()
@@ -62,56 +96,47 @@
 
 <style scoped>
 
-  .box{
-
+  .box .bzimg{
+    background:url(/static/img/real/bz.png) no-repeat center center;
+    background-size: 100% auto
   }
 
-  .box .content .input{
-    position: absolute;
-    top:0px;
-    left:0px;
-    right:0px;
-    height: 20rem;
+  .box .content .imgs{
+    margin-top: 1.5rem;
   }
 
-  .box .content .input .text{
-    border: none;
-    height: 2.5rem;
-  }
-
-  dl, dt, dd {
-    display: block;
-  }
-
-  dl {
-    overflow: hidden;
+  .box .content .imgs .imgbox{
     width: 94%;
     margin: 0 auto;
-    height: 2.5rem;
-    border-bottom: 1px solid rgba(230, 233, 237, 1);
   }
 
-  dt {
-    width: 30%;
-    float: left;
+  .idno{
+    display: inline-block;
+    width: 31%;
+    height: 8rem;
+    align-content: center;
+    text-align:center
+  }
+  .idno label{
+    display: block;
     color: #999999;
-    line-height: 2.5rem;
+    margin-top:1rem;
   }
 
-  dd {
-    margin: 0;
-    padding: 0;
-    float: left;
-    color: #333333;
-    line-height: 2.5rem;
+  .idno1{
+    background:url(/static/img/real/idno1.png) no-repeat center center;
+    background-size: contain;
+    height: 5rem;
   }
-
-  .box .content .img{
-    position: absolute;
-    top:20rem;
-    left:0px;
-    right:0px;
-    height: 20rem;
+  .idno2{
+    background:url(/static/img/real/idno2.png) no-repeat center center;
+    background-size: contain;
+    height: 5rem;
+  }
+  .idno3{
+    background:url(/static/img/real/idno3.png) no-repeat center center;
+    background-size: contain;
+    height: 5rem;
   }
 
 </style>

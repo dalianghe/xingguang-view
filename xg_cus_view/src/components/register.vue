@@ -1,16 +1,16 @@
 <template>
   <div class="box">
     <div class="logo1"></div>
-    <div class="content">
+    <div class="contentR">
       <div class="content1">
         <p>
-          <input type="text" v-model="data.phone"/>
+          <input type="text" v-model="data.phone" placeholder="您的手机号"/>
         </p>
         <p>
-          <input type="text" v-model="data.imgCode"/>
+          <input type="text" v-model="data.imgCode" placeholder="图形验证码"/>
         </p>
         <p>
-          <input type="text" v-model="data.smsCode"/>
+          <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
         </p>
         <!--<p>-->
           <!--<input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">-->
@@ -145,43 +145,41 @@
   }
 
   .box .logo1{
-    position: absolute;
-    top: 2rem;
-    left: 0px;
-    right: 0px;
     height: 20rem;
     background:url(/static/img/register/logo1.png) no-repeat center center;
     background-size: 100% auto
   }
 
-  .box .content{
-    position: absolute;
-    top: 20rem;
-    left: 0px;
-    right: 0px;
+  .box .contentR{
     height: 12rem;
   }
 
-  .box .content .content1{
-    width: 20rem;
+  .box .contentR .content1{
+    width: 18rem;
     margin: 0 auto;
     align-content: center;
     text-align:center
   }
-
-  .box .content .content1 input{
-    width: 20rem;
+  .box .contentR .content1 p{
+    width: 18rem;
+    margin: 1rem auto;
+    align-content: center;
+    text-align:center
+  }
+  .box .contentR .content1 input{
+    width: 18rem;
     height: 2rem;
     border-radius: 0.4rem;
     background-color: rgba(255, 255, 255, 1);
     border: 1px solid #CCC;
     line-height: 2rem;
     text-indent: 1rem;
+    font-size: 1rem;
   }
 
-  .box .content .content1 a{
+  .box .contentR .content1 a{
     display: block;
-    width: 20rem;
+    width: 18rem;
     height: 2rem;
     background-color: rgba(255, 123, 183, 1);
     box-shadow: 0px 7px 0px 0px

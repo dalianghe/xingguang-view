@@ -78,25 +78,16 @@
 </script>
 
 <style scoped>
-  .box {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0rem;
-    font-size: 1rem;
-    font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "宋体";
-  }
 
   .box .bank_box {
-    background: #d0d0d0;
-    background-clip: content-box;
+
   }
 
   .box .bank {
     background: #FFFFFF;
-    margin-bottom: 0.3rem;
-    /*border-bottom: 1px solid #999;*/
-    box-shadow: 1px 1px 2px #666;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(230, 233, 237, 1);
+    box-shadow: 1px 1px 2px rgba(230, 233, 237, 1);
   }
 
   .box .top {
@@ -137,7 +128,7 @@
   .box .bank_box .detail .title {
     margin-left: 1rem;
     display: inline-block;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.6rem;
   }
 
@@ -145,7 +136,7 @@
     margin-left: 1rem;
     display: inline-block;
     font-size: 0.8rem;
-    color: #666;
+    color: #999999;
     line-height: 1.6rem;
   }
 
@@ -153,14 +144,16 @@
     margin-left: 0.2rem;
     display: inline-block;
     font-size: 0.8rem;
-    color: #666;
+    color: #999;
     line-height: 1.6rem;
   }
 
   .box .bank_box .detail .bank_no {
     margin-left: 1rem;
     font-size: 1rem;
+    color: #666;
     line-height: 1.6rem;
+    letter-spacing: 0.15rem;
   }
 
   .box .bank_box .unbind {
