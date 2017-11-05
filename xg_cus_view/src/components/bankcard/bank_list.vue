@@ -3,14 +3,14 @@
     <div class="top clears">
       <div class="title">我的银行卡</div>
       <router-link class="button clears" to="addbank">
-        <img class="img" src="static/img/add.png"/>
+        <img class="img" src="/static/cus/img/add.png"/>
       </router-link>
     </div>
     <div class="bank_box">
       <transition-group name="root" tag="p" mode="out-in">
         <div class="bank clears" v-for="obj in bankList" v-show="obj.cusBankCard.status == 1" key="obj.cusBankCard.id">
           <div class="icon_box">
-            <img class="icon" src="static/img/bank/zhongguo.png"/>
+            <img class="icon" :src="'/static/cus/img/bank/'+ obj.cusBank.path + '.png'" />
           </div>
           <div class="detail">
             <div class="title">{{ obj.cusBank.name }}</div>
@@ -168,7 +168,7 @@
     font-size: 0.8rem;
     color: #a43b3b;
     padding: 0.3rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
     display: inline-block;
     background-clip: padding-box;
     transition-duratio: 0.2s;

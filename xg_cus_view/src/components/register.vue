@@ -68,8 +68,10 @@
     methods: {
       submit: function (event) {
         var vm = this;
+        vm.$indicator.open();
         this.$http.post('/auth/register', vm.data)
           .then(function (response) {
+            vm.$indicator.close();
             if (response.bizCode == 0) {
               let token = response.data;
               if (token) {
@@ -81,8 +83,6 @@
               vm.$toast(response.msg);
             }
           })
-          .catch(function (response) {
-          });
       },
       initWxConfig: function (event) {
         var vm = this;
@@ -146,7 +146,7 @@
 
   .box .logo1{
     height: 20rem;
-    background:url(/static/img/register/logo1.png) no-repeat center center;
+    background:url(/static/cus/img/register/logo1.png) no-repeat center center;
     background-size: 100% auto
   }
 
@@ -195,7 +195,7 @@
     right: 0px;
     bottom: 0px;
     height: 10rem;
-    background:url(/static/img/register/logo2.png) no-repeat center center;
+    background:url(/static/cus/img/register/logo2.png) no-repeat center center;
     background-size: 100% auto;
     vertical-align:bottom;
   }
@@ -225,7 +225,7 @@
 
   .box .jb1{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -235,7 +235,7 @@
 
   .box .jb2{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -245,7 +245,7 @@
 
   .box .jb3{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -255,7 +255,7 @@
 
   .box .jb4{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -265,7 +265,7 @@
 
   .box .jb5{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -275,7 +275,7 @@
 
   .box .jb6{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -285,7 +285,7 @@
 
   .box .jb7{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;
@@ -295,7 +295,7 @@
 
   .box .jb8{
     position: absolute;
-    background:url(/static/img/register/jb1.png) no-repeat left center;
+    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
     background-size: contain;
     width: 20rem;
     height: 3rem;

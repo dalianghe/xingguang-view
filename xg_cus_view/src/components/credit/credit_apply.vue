@@ -36,8 +36,10 @@
     methods: {
       submit: function (event) {
         var vm = this;
+        vm.$indicator.open();
         this.$http.post('/credit/apply', vm.data)
           .then(function (response) {
+            vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("授信申请已提交,请耐心等待!");
             }else{
@@ -51,7 +53,7 @@
 
 <style scoped>
   .box .bzimg{
-    background:url(/static/img/information/bz.png) no-repeat center center;
+    background:url(/static/cus/img/information/bz.png) no-repeat center center;
     background-size: 100% auto
   }
 </style>

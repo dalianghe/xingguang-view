@@ -1,9 +1,21 @@
 <template>
   <div class="box">
     <div class="content clears">
+      <mt-popup
+        v-model="popupVisible"
+        position="right">
+        <div class="selectbox">
+          <ul class="select"
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="10">
+            <li class="option" v-for="obj in options">{{ obj.name }}</li>
+          </ul>
+        </div>
+      </mt-popup>
       <div class="input">
         <dl>
-          <dt>银行卡</dt>
+          <dt @click="selectBank">银行卡</dt>
           <dd>
             <select v-model="data.bankId">
               <option v-for="obj in options" :value="obj.id">{{obj.name}}</option>
@@ -33,11 +45,11 @@
 </template>
 
 <script>
-
   export default {
     name: 'addbank',
     data() {
       return {
+        popupVisible:false,
         data: {},
         options:[]
       };
@@ -46,7 +58,9 @@
       this.getBanks();
     },
     methods: {
-
+      selectBank : function(){
+        this.popupVisible = true;
+      },
       getBanks: function (event) {
         var vm = this;
         this.$http.get('/banks')
@@ -61,8 +75,10 @@
 
       submit: function (event) {
         var vm = this;
+        vm.$indicator.open();
         this.$http.post('/bank/cards', vm.$data.data)
           .then(function (response) {
+            vm.$indicator.close();
             if (response.bizCode == 1) {
               vm.$toast("银行卡已存在");
             } else {
@@ -145,4 +161,24 @@
     line-height: 3rem;
     font-size: 1.2rem;
   }
+
+  .selectbox{
+    position: fixed;
+    top:0px;
+    bottom:0px;
+    left:10rem;
+    right:0px;
+    z-index: 9999;
+  }
+  .selectbox ul{
+    list-style: none outside none;
+  }
+  .selectbox ul li{
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    display: list-item;
+    height: 3rem;
+    line-height: 3rem;
+  }
+
 </style>

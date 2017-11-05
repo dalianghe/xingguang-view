@@ -5,7 +5,7 @@
         <dl>
           <dt>提款额度</dt>
           <dd>
-            <input class="text" type="type" v-model="data.amount"/>
+            <input class="text" type="text" v-model="data.amount"/>
           </dd>
         </dl>
         <dl>
@@ -82,8 +82,10 @@
       */
       submit: function (event) {
         var vm = this;
+        vm.$indicator.open();
         this.$http.post('/wdrl/apply', vm.data)
           .then(function (response) {
+            vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("提款申请已提交,请耐心等待!");
             }else if(response.bizCode == 1){

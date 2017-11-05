@@ -10,21 +10,21 @@
       <div class="menus">
         <router-link class="url clears" to="/creditinfo">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon1"></div>
             <div class="title">我的授信</div>
             <div class="arrow"></div>
           </div>
         </router-link>
         <router-link class="url clears" to="/wdrllist">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon2"></div>
             <div class="title">我的借款</div>
             <div class="arrow"></div>
           </div>
         </router-link>
-        <router-link class="url clears" to="/banks">
+        <router-link class="url clears" to="/banklist">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon3"></div>
             <div class="title">银行卡管理</div>
             <div class="arrow"></div>
           </div>
@@ -33,21 +33,21 @@
       <div class="menus">
         <router-link class="url clears" to="/wdrllist">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon4"></div>
             <div class="title">借款攻略</div>
             <div class="arrow"></div>
           </div>
         </router-link>
         <router-link class="url clears" to="/">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon5"></div>
             <div class="title">了解星光</div>
             <div class="arrow"></div>
           </div>
         </router-link>
         <router-link class="url clears" to="/banks">
           <div class="menu">
-            <div class="icon"></div>
+            <div class="icon icon6"></div>
             <div class="title">常见问题</div>
             <div class="arrow"></div>
           </div>
@@ -152,12 +152,20 @@
   }
   .menu .icon{
     float: left;
-    width:1.8rem;
-    height: 1.8rem;
-    margin-top:0.7rem;
+    width:1.2rem;
+    height: 1.2rem;
+    margin-top:0.95rem;
     margin-left: 1.2rem;
     background-color: #bfc1c4;
   }
+  .menu .icon1{background:url(/static/cus/img/my/1.png) no-repeat center center; background-size: contain;}
+  .menu .icon2{background:url(/static/cus/img/my/2.png) no-repeat center center; background-size: contain;}
+  .menu .icon3{background:url(/static/cus/img/my/3.png) no-repeat center center; background-size: contain;}
+  .menu .icon4{background:url(/static/cus/img/my/4.png) no-repeat center center; background-size: contain;}
+  .menu .icon5{background:url(/static/cus/img/my/5.png) no-repeat center center; background-size: contain;}
+  .menu .icon6{background:url(/static/cus/img/my/6.png) no-repeat center center; background-size: contain;}
+
+
   .menu .title{
     float: left;
     margin-left: 1rem;

@@ -78,17 +78,19 @@
         formData.append('img1', vm.$refs.realImg1.files[0]);
         formData.append('img2', vm.$refs.realImg2.files[0]);
         formData.append('img3', vm.$refs.realImg3.files[0]);
+        vm.$indicator.open();
         this.$http.post('/auth/real', formData, {
           headers: {'Content-Type': 'multipart/form-data'}
         })
-          .then(function (response) {
-            if (response.bizCode == 0) {
-              vm.$toast("认证成功");
-              vm.$router.push("/creditapply");
-            } else {
-              vm.$toast(response.msg);
-            }
-          })
+        .then(function (response) {
+          vm.$indicator.close();
+          if (response.bizCode == 0) {
+            vm.$toast("认证成功");
+            vm.$router.push("/creditapply");
+          } else {
+            vm.$toast(response.msg);
+          }
+        })
       }
     }
   }
@@ -97,7 +99,7 @@
 <style scoped>
 
   .box .bzimg{
-    background:url(/static/img/real/bz.png) no-repeat center center;
+    background:url(/static/cus/img/real/bz.png) no-repeat center center;
     background-size: 100% auto
   }
 
@@ -124,17 +126,17 @@
   }
 
   .idno1{
-    background:url(/static/img/real/idno1.png) no-repeat center center;
+    background:url(/static/cus/img/real/idno1.png) no-repeat center center;
     background-size: contain;
     height: 5rem;
   }
   .idno2{
-    background:url(/static/img/real/idno2.png) no-repeat center center;
+    background:url(/static/cus/img/real/idno2.png) no-repeat center center;
     background-size: contain;
     height: 5rem;
   }
   .idno3{
-    background:url(/static/img/real/idno3.png) no-repeat center center;
+    background:url(/static/cus/img/real/idno3.png) no-repeat center center;
     background-size: contain;
     height: 5rem;
   }
