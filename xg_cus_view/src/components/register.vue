@@ -7,7 +7,10 @@
           <input type="text" v-model="data.phone" placeholder="您的手机号"/>
         </p>
         <p>
-          <input type="text" v-model="data.imgCode" placeholder="图形验证码"/>
+          <span class="ewminputbox">
+            <input type="text" id="ewminput" v-model="data.imgCode" placeholder="图形验证码"/>
+          </span>
+          <span class="ewm" ref="ewm" @click="refreshVerifyCode"></span>
         </p>
         <p>
           <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
@@ -65,7 +68,17 @@
       console.info(wx);
       this.initWxConfig();
     },
+    mounted: function () {
+      this.getVerifyCode();
+    },
     methods: {
+      getVerifyCode: function(){
+        let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
+        this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');
+      },
+      refreshVerifyCode: function(){
+        this.getVerifyCode();
+      },
       submit: function (event) {
         var vm = this;
         vm.$indicator.open();
@@ -175,6 +188,19 @@
     line-height: 2rem;
     text-indent: 1rem;
     font-size: 1rem;
+  }
+
+  .ewminputbox{
+    width:13rem;
+  }
+  #ewminput{
+    width:13rem;
+  }
+
+  .ewm{
+    display: inline-block;
+    width:4rem;
+    height: 2rem;
   }
 
   .box .contentR .content1 a{
