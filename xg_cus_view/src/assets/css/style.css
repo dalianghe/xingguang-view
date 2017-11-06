@@ -23,9 +23,13 @@ a { text-decoration:none;}
   zoom: 1;
 }
 
+.mint-popup-width-full{
+  width: 100%;
+}
+
 input[type=text]{
   outline:none;
-  font-size: 1.2rem;
+  font-size: 1.08rem;
 }
 
 input[type=password]{
@@ -89,7 +93,7 @@ dt {
   width: 30%;
   float: left;
   color: #999999;
-  line-height: 3.5rem;
+  line-height: 3.8rem;
 }
 
 dd {
