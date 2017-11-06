@@ -1,18 +1,14 @@
 <template>
   <div class="box">
+    <mt-popup
+      class="mint-popup-4"
+      v-model="popupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="slots" @change="selectedBank"></mt-picker>
+    </mt-popup>
     <div class="content clears">
-      <mt-popup
-        v-model="popupVisible"
-        position="right">
-        <div class="selectbox">
-          <ul class="select"
-            v-infinite-scroll="loadMore"
-            infinite-scroll-disabled="loading"
-            infinite-scroll-distance="10">
-            <li class="option" v-for="obj in options">{{ obj.name }}</li>
-          </ul>
-        </div>
-      </mt-popup>
+
       <div class="input">
         <dl>
           <dt @click="selectBank">银行卡</dt>
@@ -51,7 +47,24 @@
       return {
         popupVisible:false,
         data: {},
-        options:[]
+        options:[],
+        slots: [
+          {
+            flex: 1,
+            values: ['1','2','3'],
+            className: 'slot1',
+            textAlign: 'right'
+          }, {
+            divider: true,
+            content: '-',
+            className: 'slot2'
+          }, {
+            flex: 1,
+            values: ['a','b','c'],
+            className: 'slot3',
+            textAlign: 'left'
+          }
+        ]
       };
     },
     mounted: function () {
@@ -60,6 +73,9 @@
     methods: {
       selectBank : function(){
         this.popupVisible = true;
+      },
+      selectedBank : function(){
+
       },
       getBanks: function (event) {
         var vm = this;
@@ -163,12 +179,7 @@
   }
 
   .selectbox{
-    position: fixed;
-    top:0px;
-    bottom:0px;
-    left:10rem;
-    right:0px;
-    z-index: 9999;
+
   }
   .selectbox ul{
     list-style: none outside none;
