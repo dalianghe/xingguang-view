@@ -6,11 +6,9 @@
         <p>
           <input type="text" v-model="data.phone" placeholder="您的手机号"/>
         </p>
-        <p>
-          <span class="ewminputbox">
-            <input type="text" id="ewminput" v-model="data.imgCode" placeholder="图形验证码"/>
-          </span>
-          <span class="ewm" ref="ewm" @click="refreshVerifyCode"></span>
+        <p id="ewmP">
+          <input type="text" id="ewminput" v-model="data.imgCode" placeholder="图形验证码"/>
+          <input type="text" readonly="readonly" id="ewm" ref="ewm" @click="getVerifyCode"/>
         </p>
         <p>
           <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
@@ -75,9 +73,6 @@
       getVerifyCode: function(){
         let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
         this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');
-      },
-      refreshVerifyCode: function(){
-        this.getVerifyCode();
       },
       submit: function (event) {
         var vm = this;
@@ -171,14 +166,20 @@
     width: 18rem;
     margin: 0 auto;
     align-content: center;
-    text-align:center
+    text-align:center;
   }
   .box .contentR .content1 p{
     width: 18rem;
     margin: 1rem auto;
     align-content: center;
-    text-align:center
+    text-align:center;
   }
+
+  #ewmP{
+    align-content: left;
+    text-align:left;
+  }
+
   .box .contentR .content1 input{
     width: 18rem;
     height: 2rem;
@@ -190,17 +191,15 @@
     font-size: 1rem;
   }
 
-  .ewminputbox{
-    width:13rem;
-  }
   #ewminput{
     width:13rem;
   }
 
-  .ewm{
+  #ewm{
     display: inline-block;
-    width:4rem;
+    width:4.5rem;
     height: 2rem;
+    border-style:none;
   }
 
   .box .contentR .content1 a{
