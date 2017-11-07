@@ -10,8 +10,11 @@
           <input type="text" id="ewminput" v-model="data.imgCode" @input="validateVerifyCode" placeholder="图形验证码"/>
           <input type="text" readonly="readonly" id="ewm" ref="ewm" @click="getVerifyCode"/>
         </p>
-        <p>
+        <p v-show="smsFlag">
           <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
+        </p>
+        <p id="smsSend" v-show="smsFlag">
+          <label @click="sendSms">未收到短信验证码？</label>
         </p>
         <!--<p>-->
           <!--<input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">-->
@@ -53,6 +56,7 @@
     name: 'register',
     data() {
       return {
+        smsFlag:false,
         data: {
           phone: "",
           imgCode: "",
@@ -74,20 +78,38 @@
         let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
         this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');
       },
+      sendSms: function(){
+        var vm = this;
+        let phone = vm.data.phone;
+//        if(imgCode.length != 4){
+//          return;
+//        }
+        vm.$indicator.open();
+        this.$http.get('/sms/send/' + phone)
+          .then(function (response) {
+            vm.$indicator.close();
+            if (response.bizCode == 0) {
+              vm.$toast("验证码已发送");
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+      },
       validateVerifyCode: function(){
         var vm = this;
         let imgCode = vm.data.imgCode;
-        if(imgCode.length < 4){
+        if(imgCode.length != 4){
             return;
         }
+        vm.$indicator.open();
         this.$http.get('/verify/code/' + imgCode)
           .then(function (response) {
             vm.$indicator.close();
             if (response.bizCode == 0) {
               let flag = response.data;
               if (flag == 1) {
-                vm.$toast("图形验证码成功");
-
+                vm.smsFlag = true;
+                vm.sendSms();
               }else{
                 vm.$toast("图形验证码错误");
                 vm.data.imgCode = '';
@@ -202,6 +224,14 @@
   #ewmP{
     align-content: left;
     text-align:left;
+  }
+
+  #smsSend{
+    align-content: right;
+    text-align:right;
+    font-size: 0.5rem;
+    color:#fff;
+    line-height: 0.1rem;
   }
 
   .box .contentR .content1 input{
