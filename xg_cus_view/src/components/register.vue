@@ -7,7 +7,7 @@
           <input type="text" v-model="data.phone" placeholder="您的手机号"/>
         </p>
         <p id="ewmP">
-          <input type="text" id="ewminput" v-model="data.imgCode" placeholder="图形验证码"/>
+          <input type="text" id="ewminput" v-model="data.imgCode" @input="validateVerifyCode" placeholder="图形验证码"/>
           <input type="text" readonly="readonly" id="ewm" ref="ewm" @click="getVerifyCode"/>
         </p>
         <p>
@@ -73,6 +73,30 @@
       getVerifyCode: function(){
         let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
         this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');
+      },
+      validateVerifyCode: function(){
+        var vm = this;
+        let imgCode = vm.data.imgCode;
+        if(imgCode.length < 4){
+            return;
+        }
+        this.$http.get('/verify/code/' + imgCode)
+          .then(function (response) {
+            vm.$indicator.close();
+            if (response.bizCode == 0) {
+              let flag = response.data;
+              if (flag == 1) {
+                vm.$toast("图形验证码成功");
+
+              }else{
+                vm.$toast("图形验证码错误");
+                vm.data.imgCode = '';
+                vm.getVerifyCode();
+              }
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
       },
       submit: function (event) {
         var vm = this;
