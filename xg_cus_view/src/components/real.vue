@@ -86,6 +86,8 @@
           vm.$indicator.close();
           if (response.bizCode == 0) {
             vm.$toast("认证成功");
+            localStorage.setItem("_cusName", vm.data.name);
+            localStorage.setItem("_cusIdNo", vm.data.idNo);
             vm.$router.push("/creditapply");
           } else {
             vm.$toast(response.msg);

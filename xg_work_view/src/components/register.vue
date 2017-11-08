@@ -36,7 +36,7 @@
             if (response.bizCode == 0) {
               let token = response.data;
               if (token) {
-                localStorage.setItem("token", token);
+                localStorage.setItem("_workToken", token);
               }
               vm.$toast("注册成功");
               vm.$router.push("/real");
