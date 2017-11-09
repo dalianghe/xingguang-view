@@ -123,3 +123,7 @@ dd {
   line-height: 3rem;
   font-size: 1.2rem;
 }
+
+.readonly {
+  color: #666666;
+}

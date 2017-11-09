@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios'
 axios.defaults.baseURL = process.env.API_ROOT;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials=true;
 axios.interceptors.request.use(function (config) {
-    let token = localStorage.getItem("token");
-    if (token) {
+    let token = localStorage.getItem("_cusToken");
+    if(token){
       config.headers.Authorization = `bearer ${token}`;
     }
     return config;

@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(function (config) {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("_workToken");
     if(token){
       config.headers.Authorization = `bearer ${token}`;
     }

@@ -22,7 +22,7 @@ export default {
       .then(function (response) {
         let token = response.data;
         if(token){
-          localStorage.setItem("token", token);
+          localStorage.setItem("_workToken", token);
         }
       })
       .catch(function (response) {
