@@ -49,7 +49,8 @@
         data: {
           phonePwd:"",
           captcha:"",
-          queryPwd:""
+          queryPwd:"",
+          appId:""
         },
         tokenData:{
           token: "",
@@ -132,6 +133,7 @@
                 vm.tokenData.type = "SUBMIT_QUERY_PWD";
                 vm.queryCodeShow = true;
               }else if(data.process_code == "10008"){
+                vm.data.appId = response.data.appId;
                 vm.submit();
               }
               vm.cellShow = true;
