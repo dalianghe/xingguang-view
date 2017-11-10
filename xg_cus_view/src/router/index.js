@@ -57,6 +57,11 @@ export default new Router({
       path: '/wdrllist',
         name: 'wdrllist',
       component: resolve => require(['../components/wdrl/wdrl_list.vue'], resolve)
+    },
+    {
+      path: '/repymtlist/:wdrlId',
+        name: 'repymtlist',
+      component: resolve => require(['../components/repymt/repymt_list.vue'], resolve)
     }
   ]
 })

@@ -25,9 +25,7 @@
           </p>
         </div>
         <div class="right">
-          <router-link class="button clears" :to="'/repymtlist/'+obj.id">
-            还款计划
-          </router-link>
+          <a>还款计划</a>
         </div>
       </div>
     </div>
@@ -41,23 +39,22 @@
     data() {
       return {
         data: {
+          wdrlId:""
         },
         list:[]
       }
     },
     mounted: function () {
+      this.data.wdrlId = this.$route.params.wdrlId;
       this.getList();
     },
     methods: {
       getList: function (event) {
         var vm = this;
-        this.$http.get('/wdrl/apply/list')
+        this.$http.get('/repymt/plans/' + vm.data.wdrlId)
         .then(function (response) {
           vm.list = response.data;
         })
-      },
-      goRepymtList : function(){
-
       }
     }
   }
