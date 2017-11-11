@@ -200,7 +200,9 @@
   }
 
   .box .logo1{
-    height: 15rem;
+    height: 14rem;
+    width:80%;
+    margin:0 auto;
     background:url(/static/cus/img/register/logo1.png) no-repeat center center;
     background-size: 100% auto
   }
