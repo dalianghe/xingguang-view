@@ -2,30 +2,40 @@
   <div class="box">
     <div class="row clears" v-for="obj in list">
       <div class="title clears">
-        <div class="left clears">订单号：{{8000000000 + obj.id}}</div>
-        <div class="right right1 clears" v-if="obj.status == 10 || obj.status == 20">待放款</div>
-        <div class="right right2 clears" v-else-if="obj.status == 25 || obj.status == 35">被拒绝</div>
-        <div class="right right1 clears" v-else-if="obj.status == 30">未结清</div>
-        <div class="right right2 clears" v-else-if="obj.status == 45">已逾期</div>
-        <div class="right right3 clears" v-else-if="obj.status == 40">已结清</div>
+        <div class="left clears">订单号：{{6000000000 + obj.id}}</div>
+        <div class="right right3 clears" v-if="obj.stauts == 10">未到期</div>
+        <div class="right right1 clears" v-else-if="obj.stauts == 20">还款中</div>
+        <div class="right right1 clears" v-else-if="obj.stauts == 30 || obj.status == 50">已还款</div>
+        <div class="right right2 clears" v-else-if="obj.stauts == 40">已逾期</div>
       </div>
       <div class="content">
         <div class="left">
           <p>
-            <label>提款金额</label>
-            <span>{{obj.amount | formatMoney}}</span>
+            <label>本金（元）</label>
+            <span>{{obj.principal | formatMoney}}</span>
           </p>
           <p>
-            <label>申请日期</label>
-            <span>{{obj.createTime | formatTime}}</span>
+            <label>计划还款日</label>
+            <span>{{obj.planDate | formatTime}}</span>
           </p>
-          <p>
-            <label>放款日期</label>
-            <span>{{obj.issueTime | formatTime}}</span>
+          <p v-if="obj.overdueDays != null">
+            <label>逾期天数</label>
+            <span>{{obj.overdueDays}}</span>
           </p>
         </div>
         <div class="right">
-          <a>还款计划</a>
+          <p>
+            <label>利息（元）</label>
+            <span>{{obj.interest | formatMoney}}</span>
+          </p>
+          <p v-if="obj.stauts == 30 || obj.status == 50">
+            <label>实际还款日</label>
+            <span>{{obj.actualDate | formatTime}}</span>
+          </p>
+          <p v-if="obj.penalty != null">
+            <label>罚息（元）</label>
+            <span>{{obj.penalty | formatMoney}}</span>
+          </p>
         </div>
       </div>
     </div>
@@ -151,6 +161,8 @@
 
   .box .row .content .right{
     float: right;
+    color: #666666;
+    font-size: 0.9rem;
   }
 
   .box .row .content .right a{

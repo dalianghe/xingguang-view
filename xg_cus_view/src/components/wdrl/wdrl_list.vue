@@ -28,6 +28,9 @@
           <router-link class="button clears" :to="'/repymtlist/'+obj.id">
             还款计划
           </router-link>
+          <router-link v-if="obj.status == 45" class="button clears" :to="'/repymtapply/'+obj.id">
+            我要还款
+          </router-link>
         </div>
       </div>
     </div>
@@ -157,8 +160,8 @@
   }
 
   .box .row .content .right a{
-    display: inline-block;
-    margin-top:1.7rem;
+    display: block;
+    margin-top:0.4rem;
     width: 4.8rem;
     height: 1.5rem;
     border-radius: 3px 3px 3px 3px;
@@ -169,6 +172,9 @@
     font-size: 0.9rem;
     font-weight: bolder;
     color: #f10216;
+  }
+  .box .row .content .right a:first-child{
+    margin-top:0.8rem;
   }
 
 </style>

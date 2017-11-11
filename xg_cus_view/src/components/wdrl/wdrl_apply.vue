@@ -1,5 +1,12 @@
 <template>
   <div class="box">
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="popupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="slots" valueKey="name" @change="selectedBankCard"></mt-picker>
+    </mt-popup>
     <div class="content clears">
       <div class="input">
         <dl>
@@ -8,12 +15,11 @@
             <input class="text" type="text" v-model="data.amount"/>
           </dd>
         </dl>
-        <dl>
-          <dt>银行卡</dt>
+        <dl @click="selectBankCard">
+          <dt >银行卡</dt>
           <dd>
-            <select v-model="data.bankCardId">
-              <option v-for="obj in bankCardOptions" :value="obj.id">{{obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo}}</option>
-            </select>
+            <input type="text" class="text" readonly="readonly" v-model="data.bankName"/>
+            <input type="hidden" class="text" readonly="readonly" v-model="data.bankCardId"/>
           </dd>
         </dl>
         <dl>
@@ -38,12 +44,16 @@
     name: 'wdrl_apply',
     data() {
       return {
+        popupVisible:false,
         data: {
         },
-        bankCardOptions:{},
-        productOptions:[],
-        productTermOptions:[],
-        productTermOptionsMap:{}
+        slots: [
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ]
       }
     },
     mounted: function () {
@@ -54,8 +64,24 @@
         var vm = this;
         this.$http.get('/bank/cards')
         .then(function (response) {
-          vm.bankCardOptions = response.data;
+          //obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo
+
+          for(var obj of response.data){
+            vm.slots[0].values.push({"id": obj.cusBankCard.id, "name": obj.cusBankCard.bankName + "-" + obj.cusBankCard.cardNo});
+          }
         })
+      },
+      selectBankCard : function(){
+        this.popupVisible = true;
+      },
+      selectedBankCard : function(picker, values){
+        if(!this.popupVisible){
+          return;
+        }
+        if(picker.getValues()[0]){
+          this.data.bankCardId = picker.getValues()[0].id;
+          this.data.bankName = picker.getValues()[0].name;
+        }
       },
       /**
       //留着联动参考--开始--

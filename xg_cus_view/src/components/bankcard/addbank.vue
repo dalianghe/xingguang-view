@@ -44,7 +44,6 @@
       return {
         popupVisible:false,
         data: {},
-        options:[],
         slots: [
           {
             flex: 1,
@@ -76,7 +75,6 @@
           .then(function (response) {
             if (response.bizCode == 0) {
               vm.slots[0].values = response.data;
-              vm.options = response.data;
             }
           })
           .catch(function (response) {

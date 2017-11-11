@@ -9,6 +9,11 @@ export default new Router({
 
   routes: [
     {
+      path: '/',
+      name: 'login',
+      component: resolve => require(['../components/login.vue'], resolve)
+    },
+    {
       path: '/register/:key',
       name: 'register',
       component: register
@@ -17,11 +22,6 @@ export default new Router({
       path: '/real',
       name: 'real',
       component: resolve => require(['../components/real.vue'], resolve)
-    },
-    {
-      path: '/',
-      name: 'login',
-      component: resolve => require(['../components/login.vue'], resolve)
     },
     {
       path: '/banklist',
@@ -62,6 +62,16 @@ export default new Router({
       path: '/repymtlist/:wdrlId',
         name: 'repymtlist',
       component: resolve => require(['../components/repymt/repymt_list.vue'], resolve)
+    },
+    {
+      path: '/repymtapply/:wdrlId',
+        name: 'repymtapply',
+      component: resolve => require(['../components/repymt/repymt_apply.vue'], resolve)
+    },
+    {
+      path: '/info',
+        name: 'info',
+      component: resolve => require(['../components/info.vue'], resolve)
     }
   ]
 })

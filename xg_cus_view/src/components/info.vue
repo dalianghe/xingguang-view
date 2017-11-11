@@ -1,89 +1,210 @@
 <template>
   <div class="box">
-    <dl>
-      <dt>提款额度</dt>
-      <dd>
-        <input type="type" v-model="data.amount"/>
-      </dd>
-    </dl>
-    <dl>
-      <dt>银行卡</dt>
-      <dd>
-        <select v-model="data.bankCardId">
-          <option v-for="obj in bankCardOptions" :value="obj.id">{{obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo}}</option>
-        </select>
-      </dd>
-    </dl>
-    <dl>
-      <dt>预留手机号</dt>
-      <dd>
-        <input type="text" v-model="data.reservePhone"/>
-      </dd>
-    </dl>
-    <button v-on:click="submit">确定</button>
+    <div class="content">
+      <div class="input">
+        <dl>
+          <dt>性别</dt>
+          <dd @click="selectCode('sexPopupVisible')">
+            <input type="text" class="text" placeholder="请选择性别" readonly="readonly" v-model="data.cusUserInfo.sexName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>学历</dt>
+          <dd @click="selectCode('educationPopupVisible')">
+            <input type="text" class="text" placeholder="请选择学历" readonly="readonly" v-model="data.cusUserInfo.educationName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>职业</dt>
+          <dd @click="selectCode('occupationPopupVisible')">
+            <input type="text" class="text" placeholder="请选择职业" readonly="readonly" v-model="data.cusUserInfo.occupationName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>收入</dt>
+          <dd @click="selectCode('incomePopupVisible')">
+            <input type="text" class="text" placeholder="请选择收入" readonly="readonly" v-model="data.cusUserInfo.incomeName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>联系人姓名</dt>
+          <dd>
+            <input type="text" class="text" v-model="data.cusUserLink.linkName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>联系人电话</dt>
+          <dd>
+            <input type="text" class="text" v-model="data.cusUserLink.phone"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>联系人关系</dt>
+          <dd @click="selectCode('relationIdPopupVisible')">
+            <input type="text" class="text" placeholder="请选择关系" readonly="readonly" v-model="data.cusUserLink.relationIdName"/>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="btns">
+      <div class="btnbox">
+        <a v-on:click="submit">确定</a>
+      </div>
+    </div>
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="sexPopupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="sexList" valueKey="name" @change="selectedSexCode"></mt-picker>
+    </mt-popup>
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="educationPopupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="educationList" valueKey="name" @change="selectedEducationCode"></mt-picker>
+    </mt-popup>
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="occupationPopupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="occupationList" valueKey="name" @change="selectedOccupationCode"></mt-picker>
+    </mt-popup>
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="incomePopupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="incomeList" valueKey="name" @change="selectedIncomeCode"></mt-picker>
+    </mt-popup>
+    <mt-popup
+      class="mint-popup-width-full"
+      v-model="relationIdPopupVisible"
+      popup-transition="popup-fade"
+      position="bottom">
+      <mt-picker :slots="relationIdList" valueKey="name" @change="selectedLinkCode"></mt-picker>
+    </mt-popup>
   </div>
 </template>
 
 <script>
-  var math = require('mathjs');
+
   export default {
-    name: 'wdrl_apply',
+    name: 'credit_apply',
     data() {
       return {
+        sexPopupVisible: false,
+        sexList:[
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ],
+        educationPopupVisible: false,
+        educationList:[
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ],
+        occupationPopupVisible: false,
+        occupationList:[
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ],
+        incomePopupVisible: false,
+        incomeList:[
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ],
+        relationIdPopupVisible:false,
+        relationIdList:[
+          {
+            flex: 1,
+            values: [],
+            className: 'slot1'
+          }
+        ],
         data: {
-        },
-        bankCardOptions:{},
-        productOptions:[],
-        productTermOptions:[],
-        productTermOptionsMap:{}
+          cusUserInfo:{},
+          cusUserLink:{}
+        }
       }
     },
     mounted: function () {
-      this.getBankCords();
+      this.getCodes();
     },
     methods: {
-      getBankCords: function (event) {
+      getCodes: function (event) {
         var vm = this;
-        this.$http.get('/bank/cards')
-        .then(function (response) {
-          vm.bankCardOptions = response.data;
-        })
-      },
-      /**
-      //留着联动参考--开始--
-      getProducts: function (event) {
-        var vm = this;
-        this.$http.get('/products')
-          .then(function (response) {
-            vm.productOptions = response.data;
-            vm.$watch("data.productId", vm.setProductTermOptions);
-            for(var product of vm.productOptions){
-              let productTermInfoList = product.productTermInfoList;
-              for(var term of productTermInfoList){
-                term.rate = math.multiply(term.rate, 100);
-              }
-              vm.productTermOptionsMap[product.id] = product.productTermInfoList;
-            }
+        this.$http.get('/codes', {
+          params: {
+            typeIds: "101,102,103,104,105"
+          }
+        }).then(function (response) {
+            vm.sexList[0].values = response.data["101"];
+            vm.educationList[0].values = response.data["104"];
+            vm.occupationList[0].values = response.data["105"];
+            vm.incomeList[0].values = response.data["103"];
+            vm.relationIdList[0].values = response.data["102"];
           })
       },
-      setProductTermOptions: function (newVal, oldVal) {
-        var vm = this;
-        vm.productTermOptions = vm.productTermOptionsMap[newVal];
+      selectCode : function(popupVisible){
+        this[popupVisible] = true;
       },
-      //留着联动参考--结束--
-      */
+      selectedSexCode : function(picker, values){
+        if(!this.sexPopupVisible){return;}
+        if(picker.getValues()[0]){
+          this.data.cusUserInfo.sex = picker.getValues()[0].code;
+          this.data.cusUserInfo.sexName = picker.getValues()[0].name;
+        }
+      },
+      selectedEducationCode : function(picker, values){
+        if(!this.educationPopupVisible){return;}
+        if(picker.getValues()[0]){
+          this.data.cusUserInfo.education = picker.getValues()[0].code;
+          this.data.cusUserInfo.educationName = picker.getValues()[0].name;
+        }
+      },
+      selectedOccupationCode : function(picker, values){
+        if(!this.occupationPopupVisible){return;}
+        if(picker.getValues()[0]){
+          this.data.cusUserInfo.occupation = picker.getValues()[0].code;
+          this.data.cusUserInfo.occupationName = picker.getValues()[0].name;
+        }
+      },
+      selectedIncomeCode : function(picker, values){
+        if(!this.incomePopupVisible){return;}
+        if(picker.getValues()[0]){
+          this.data.cusUserInfo.income = picker.getValues()[0].code;
+          this.data.cusUserInfo.incomeName = picker.getValues()[0].name;
+        }
+      },
+      selectedLinkCode : function(picker, values){
+        if(!this.relationIdPopupVisible){return;}
+        if(picker.getValues()[0]){
+          this.data.cusUserLink.relationId = picker.getValues()[0].code;
+          this.data.cusUserLink.relationIdName = picker.getValues()[0].name;
+        }
+      },
       submit: function (event) {
         var vm = this;
-        this.$http.post('/wdrl/apply', vm.data)
+        this.$http.patch('/cus/user', vm.data)
           .then(function (response) {
             if (response.bizCode == 0) {
-              vm.$toast("提款申请已提交,请耐心等待!");
-            }else if(response.bizCode == 1){
-              vm.$toast("未发现授信记录!");
-            }else if(response.bizCode == 2){
-              vm.$toast("提款金额不能大于可用余额!");
+              vm.$toast("操作成功!");
             }else{
-              vm.$toast("服务器繁忙!");
+              vm.$toast(response.msg);
             }
           })
       }
@@ -92,20 +213,5 @@
 </script>
 
 <style scoped>
-  dl, dr, dd {
-    display: block;
-  }
-  dl {
-    overflow: hidden;
-    width: 400px;
-  }
-  dt {
-    width: 60px;
-    float: left;
-  }
-  dd {
-    margin: 0;padding: 0;
-    float: left;
-  }
 
 </style>

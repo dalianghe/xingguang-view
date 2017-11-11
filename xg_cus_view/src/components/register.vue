@@ -200,7 +200,7 @@
   }
 
   .box .logo1{
-    height: 20rem;
+    height: 15rem;
     background:url(/static/cus/img/register/logo1.png) no-repeat center center;
     background-size: 100% auto
   }

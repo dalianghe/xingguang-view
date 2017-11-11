@@ -32,7 +32,7 @@
 <script>
 
   export default {
-    name: 'register',
+    name: 'banklist',
     data() {
       return {
         bankList: []
@@ -174,17 +174,6 @@
     transition-duratio: 0.2s;
     background-color: #f6f8fa;
     box-shadow: 0 0 1px #b8bbbf;
-  }
-
-  .clears:after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    clear: both;
-  }
-
-  .clears {
-    zoom: 1;
   }
 
 </style>
