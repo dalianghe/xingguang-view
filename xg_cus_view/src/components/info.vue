@@ -41,7 +41,7 @@
         <dl>
           <dt>联系人关系</dt>
           <dd @click="selectCode('relationIdPopupVisible')">
-            <input type="text" class="text" placeholder="请选择关系" readonly="readonly" v-model="data.cusUserLink.relationIdName"/>
+            <input type="text" class="text" placeholder="请选择关系" readonly="readonly" v-model="data.cusUserLink.relationName"/>
           </dd>
         </dl>
       </div>
@@ -143,8 +143,21 @@
     },
     mounted: function () {
       this.getCodes();
+      this.getInfo();
     },
     methods: {
+      getInfo: function (event) {
+        var vm = this;
+        this.$http.get('/cus/user/info')
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              vm.data.cusUserInfo = response.data;
+              vm.data.cusUserLink = response.data.cusUserLinkAll;
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+      },
       getCodes: function (event) {
         var vm = this;
         this.$http.get('/codes', {
@@ -194,7 +207,7 @@
         if(!this.relationIdPopupVisible){return;}
         if(picker.getValues()[0]){
           this.data.cusUserLink.relationId = picker.getValues()[0].code;
-          this.data.cusUserLink.relationIdName = picker.getValues()[0].name;
+          this.data.cusUserLink.relationName = picker.getValues()[0].name;
         }
       },
       submit: function (event) {

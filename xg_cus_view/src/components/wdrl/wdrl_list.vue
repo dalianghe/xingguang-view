@@ -19,7 +19,7 @@
             <label>申请日期</label>
             <span>{{obj.createTime | formatTime}}</span>
           </p>
-          <p>
+          <p v-if="obj.issueTime != null">
             <label>放款日期</label>
             <span>{{obj.issueTime | formatTime}}</span>
           </p>
