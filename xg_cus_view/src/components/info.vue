@@ -4,7 +4,7 @@
       <div class="input">
         <dl>
           <dt>性别</dt>
-          <dd @click="selectCode('sexPopupVisible')">
+          <dd>
             <input type="text" class="text" placeholder="请选择性别" readonly="readonly" v-model="data.cusUserInfo.sexName"/>
           </dd>
         </dl>
@@ -12,18 +12,21 @@
           <dt>学历</dt>
           <dd @click="selectCode('educationPopupVisible')">
             <input type="text" class="text" placeholder="请选择学历" readonly="readonly" v-model="data.cusUserInfo.educationName"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
         <dl>
           <dt>职业</dt>
           <dd @click="selectCode('occupationPopupVisible')">
             <input type="text" class="text" placeholder="请选择职业" readonly="readonly" v-model="data.cusUserInfo.occupationName"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
         <dl>
           <dt>收入</dt>
           <dd @click="selectCode('incomePopupVisible')">
             <input type="text" class="text" placeholder="请选择收入" readonly="readonly" v-model="data.cusUserInfo.incomeName"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
         <dl>
@@ -42,6 +45,7 @@
           <dt>联系人关系</dt>
           <dd @click="selectCode('relationIdPopupVisible')">
             <input type="text" class="text" placeholder="请选择关系" readonly="readonly" v-model="data.cusUserLink.relationName"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
       </div>
@@ -216,6 +220,7 @@
           .then(function (response) {
             if (response.bizCode == 0) {
               vm.$toast("操作成功!");
+              vm.$router.go(-1);
             }else{
               vm.$toast(response.msg);
             }

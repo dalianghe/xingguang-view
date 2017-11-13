@@ -10,38 +10,42 @@
       </div>
       <div class="content">
         <div class="left">
-          <p>
-            <label>本金（元）</label>
+          <p class="clears">
+            <label>本金(元)</label>
             <span>{{obj.principal | formatMoney}}</span>
           </p>
-          <p>
+          <p class="clears" v-if="obj.lateFee != null">
+            <label>滞纳金(元)</label>
+            <span>{{obj.lateFee | formatMoney}}</span>
+          </p>
+          <p class="clears">
             <label>计划还款日</label>
             <span>{{obj.planDate | formatTime}}</span>
           </p>
-          <p v-if="obj.overdueDays != null">
+          <p class="clears" v-if="obj.overdueDays != null">
             <label>逾期天数</label>
             <span>{{obj.overdueDays}}</span>
           </p>
         </div>
         <div class="right">
-          <p>
-            <label>利息（元）</label>
+          <p class="clears">
+            <label>利息(元)</label>
             <span>{{obj.interest | formatMoney}}</span>
           </p>
-          <p v-if="obj.stauts == 30 || obj.status == 50">
+          <p class="clears" v-if="obj.penalty != null">
+            <label>罚息(元)</label>
+            <span>{{obj.penalty | formatMoney}}</span>
+          </p>
+          <p class="clears" v-if="obj.stauts == 30 || obj.status == 50">
             <label>实际还款日</label>
             <span>{{obj.actualDate | formatTime}}</span>
-          </p>
-          <p v-if="obj.penalty != null">
-            <label>罚息（元）</label>
-            <span>{{obj.penalty | formatMoney}}</span>
           </p>
         </div>
       </div>
     </div>
     <div class="btns">
       <div class="btnbox">
-        <a v-on:click="submit">确定</a>
+        <a v-on:click="submit">确认还款 ￥{{totalMoney | formatMoney}}</a>
       </div>
     </div>
   </div>
@@ -56,7 +60,8 @@
         data: {
           wdrlId:""
         },
-        list:[]
+        list:[],
+        totalMoney:""
       }
     },
     mounted: function () {
@@ -66,14 +71,15 @@
     methods: {
       getList: function (event) {
         var vm = this;
-        this.$http.get('/repymt/plans/' + vm.data.wdrlId)
+        this.$http.get('/repymt/plans/' + vm.data.wdrlId + "/overdue")
           .then(function (response) {
-            vm.list = response.data;
+            vm.list = response.data.list;
+            vm.totalMoney = response.data.totalMoney;
           })
       },
       submit: function(){
         var vm = this;
-        vm.$messagebox.confirm('确定要解绑银行卡吗?').then(action => {
+        vm.$messagebox.confirm('申请还款吗?').then(action => {
           this.$http.post('/repymt/apply/' + vm.data.wdrlId)
             .then(function (response) {
               if (response.bizCode == 0) {
@@ -168,13 +174,22 @@
     float: left;
     color: #666666;
     font-size: 0.9rem;
+    width: 50%
   }
 
   .box .row .content p{
     line-height: 0.6rem;
   }
 
+  .box .row .content label{
+    float: left;
+    display: block;
+    width: 45%;
+  }
+
   .box .row .content span{
+    float: right;
+    display: block;
     margin-left: 0.6rem;
   }
 
@@ -182,6 +197,7 @@
     float: right;
     color: #666666;
     font-size: 0.9rem;
+    width: 45%
   }
 
   .box .row .content .right a{

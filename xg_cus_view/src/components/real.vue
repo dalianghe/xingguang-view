@@ -14,7 +14,13 @@
         <dl>
           <dt>身份这号</dt>
           <dd>
-            <input class="text" type="text" v-model="data.idNo"/>
+            <input class="text" type="text" @input="changeIdNo" v-model="data.idNo"/>
+          </dd>
+        </dl>
+        <dl v-show="sexShow">
+          <dt>性别</dt>
+          <dd>
+            <input class="text" type="text" readonly="readonly" v-model="data.sexName"/>
           </dd>
         </dl>
       </div>
@@ -52,12 +58,27 @@
     name: 'credit_apply',
     data() {
       return {
-        data: {}
+        data: {},
+        sexShow: false
       }
     },
     mounted: function () {
     },
     methods: {
+      changeIdNo: function(){
+        if(this.$data.data.idNo.length == 18){
+          if(parseInt(this.$data.data.idNo.substr(16, 1)) % 2 == 1){
+            this.data.sexName = "男";
+            this.data.sex = 101001;
+          }else{
+            this.data.sexName = "女";
+            this.data.sex = 101002;
+          }
+          this.sexShow = true;
+        }else{
+          this.sexShow = false;
+        }
+      },
       selectImg: function(img){
         let imgFile = this.$refs[img];
         imgFile.click();
@@ -73,7 +94,8 @@
       },
       submit: function (event) {
         var vm = this;
-        let formData = new window.FormData()
+        let formData = new window.FormData();
+        console.info(vm.data);
         this.$tools.cloneFormData(formData, vm.data);
         formData.append('img1', vm.$refs.realImg1.files[0]);
         formData.append('img2', vm.$refs.realImg2.files[0]);

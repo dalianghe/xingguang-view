@@ -15,17 +15,18 @@
             <input class="text" type="text" v-model="data.amount"/>
           </dd>
         </dl>
-        <dl @click="selectBankCard">
-          <dt >银行卡</dt>
-          <dd>
+        <dl>
+          <dt>收款账户</dt>
+          <dd @click="selectBankCard">
             <input type="text" class="text" readonly="readonly" v-model="data.bankName"/>
-            <input type="hidden" class="text" readonly="readonly" v-model="data.bankCardId"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
-        <dl>
-          <dt>预留手机号</dt>
-          <dd>
-            <input class="text" type="text" v-model="data.reservePhone"/>
+        <dl v-show="isInfoOk">
+          <dt>个人信息</dt>
+          <dd @click="goInfo">
+            <input class="text textleft" type="text" readonly="readonly" placeholder="去完善"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
       </div>
@@ -39,14 +40,13 @@
 </template>
 
 <script>
-  var math = require('mathjs');
   export default {
     name: 'wdrl_apply',
     data() {
       return {
         popupVisible:false,
-        data: {
-        },
+        isInfoOk: false,
+        data: {},
         slots: [
           {
             flex: 1,
@@ -58,20 +58,40 @@
     },
     mounted: function () {
       this.getBankCords();
+      this.getInfo();
     },
     methods: {
       getBankCords: function (event) {
         var vm = this;
         this.$http.get('/bank/cards')
         .then(function (response) {
-          //obj.cusBankCard.bankName}}-{{obj.cusBankCard.cardNo
-
           for(var obj of response.data){
             vm.slots[0].values.push({"id": obj.cusBankCard.id, "name": obj.cusBankCard.bankName + "-" + obj.cusBankCard.cardNo});
           }
         })
       },
+      getInfo: function (event) {
+        var vm = this;
+        this.$http.get('/cus/user/info')
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              if(!response.data.education){
+                vm.isInfoOk = true;
+              }
+            }
+          })
+      },
+      goInfo: function(){
+        this.$router.push("/info");
+      },
       selectBankCard : function(){
+        var vm = this;
+        if(vm.slots[0].values == 0){
+          vm.$messagebox.confirm('您尚未绑定银行卡,前往绑定?').then(action => {
+            vm.$router.push("/addbank");
+          }).catch(err => {});
+          return;
+        }
         this.popupVisible = true;
       },
       selectedBankCard : function(picker, values){
@@ -83,29 +103,6 @@
           this.data.bankName = picker.getValues()[0].name;
         }
       },
-      /**
-      //留着联动参考--开始--
-      getProducts: function (event) {
-        var vm = this;
-        this.$http.get('/products')
-          .then(function (response) {
-            vm.productOptions = response.data;
-            vm.$watch("data.productId", vm.setProductTermOptions);
-            for(var product of vm.productOptions){
-              let productTermInfoList = product.productTermInfoList;
-              for(var term of productTermInfoList){
-                term.rate = math.multiply(term.rate, 100);
-              }
-              vm.productTermOptionsMap[product.id] = product.productTermInfoList;
-            }
-          })
-      },
-      setProductTermOptions: function (newVal, oldVal) {
-        var vm = this;
-        vm.productTermOptions = vm.productTermOptionsMap[newVal];
-      },
-      //留着联动参考--结束--
-      */
       submit: function (event) {
         var vm = this;
         vm.$indicator.open();

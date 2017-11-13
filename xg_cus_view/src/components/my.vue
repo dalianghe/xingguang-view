@@ -172,16 +172,6 @@
     line-height: 3.2rem;
   }
 
-  .menu .arrow{
-    float: right;
-    margin-top: 1.2rem;
-    margin-right: 1.2rem;
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-    width: 0.7rem;
-    height: 0.7rem;
-    transform: rotate(-45deg);
-  }
 
 
 </style>

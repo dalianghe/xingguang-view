@@ -41,15 +41,12 @@
 </template>
 
 <script>
-
+  import wx from 'weixin-js-sdk';
   export default {
     name: 'credit_apply',
     data() {
       return {
         data: {
-          phonePwd:"",
-          captcha:"",
-          queryPwd:"",
           appId:""
         },
         tokenData:{
@@ -65,6 +62,8 @@
       }
     },
     mounted: function () {
+      console.info(wx);
+      this.initWxConfig();
     },
     methods: {
       cellAuth: function(){
@@ -143,6 +142,40 @@
         }else{
           vm.$toast(response.msg);
         }
+      },
+      initWxConfig: function (event) {
+        var vm = this;
+        this.$http.get('/wx/getWxConfig')
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              let data = response.data;
+              console.info(data);
+              wx.config({
+                debug: true, //开启调试模式
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名
+                jsApiList: ["getLocation"] //必填，需要使用的JS接口列表
+              });
+              wx.ready(function(){
+                wx.getLocation({
+                  success: function (res) {
+                    console.info("CUS经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
+                    vm.data.cusLng = res.longitude;
+                    vm.data.cusLat = res.latitude;
+                  },
+                  fail: function(error) {
+                    console.info("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
+                  }
+                });
+              });
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+          .catch(function (response) {
+          });
       }
     }
   }

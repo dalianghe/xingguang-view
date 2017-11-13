@@ -13,6 +13,7 @@
           <dt>银行卡</dt>
           <dd @click="selectBank">
             <input type="text" class="text" readonly="readonly" v-model="data.bankName"/>
+            <div class="arrow arrow1"></div>
           </dd>
         </dl>
         <dl>
@@ -92,7 +93,7 @@
               vm.$toast("银行卡已存在");
             } else {
               vm.$toast("银行卡绑定成功");
-              vm.$router.push("banklist");
+              vm.$router.go(-1);
             }
           })
           .catch(function (response) {
