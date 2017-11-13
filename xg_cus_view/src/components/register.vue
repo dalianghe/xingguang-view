@@ -156,6 +156,7 @@
     background-image: linear-gradient(0deg,
     rgba(252, 72, 159, 1) 0%,
     rgba(245, 79, 57, 1) 100%);
+    z-index: -2;
   }
 
   .box .logo1{
@@ -208,11 +209,12 @@
   }
 
   #ewminput{
-    width:auto;
+    width:13rem;
   }
 
   #ewm{
-    display: inline-block;
+    float: right;
+    display: block;
     width:4.5rem;
     height: 2rem;
     border-style:none;
@@ -239,6 +241,7 @@
     background:url(/static/cus/img/register/logo2.png) no-repeat center center;
     background-size: 100% auto;
     vertical-align:bottom;
+    z-index: -1;
   }
 
   .box .logo2 .bottom{

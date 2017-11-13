@@ -90,6 +90,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .box .content .input .text{
   border: none;
+  -webkit-user-select: auto;
   height: 3.5rem;
 }
 
