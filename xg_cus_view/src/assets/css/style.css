@@ -92,7 +92,6 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   border: none;
   height: 3.5rem;
   width: 100rem;
-  background-color: #4caf50;
 }
 
 dl, dt, dd {
@@ -110,7 +109,6 @@ dl {
 dt {
   width: 30%;
   float: left;
-  background-color: #9338af;
   color: #999999;
   line-height: 3.6rem;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="top">
-      <div class="content">
+      <div class="content1">
         <div class="header"></div>
         <div class="name">{{data.name}}</div>
       </div>
@@ -111,23 +111,25 @@
     background-blend-mode: normal,
     normal;
   }
-  .box .top .content{
+  .box .top .content1{
     width:5.5rem;
     height:7.5rem;
     margin: 0 auto;
     margin-top: 4rem;
   }
-  .box .top .content .header{
+  .box .top .content1 .header{
     width:5.5rem;
     height:5.5rem;
-
+    background:url(/static/cus/img/my/header.png) no-repeat center center;
+    background-size: contain;
   }
-  .box .top .content .name{
+  .box .top .content1 .name{
     width:5.5rem;
     height:2rem;
     font-size: 1.4rem;
     color: #ffffff;
     text-align: center;
+    margin-top: 1rem;
   }
 
   .box .bottom{
