@@ -27,7 +27,7 @@
     </div>
     <div class="logo2">
       <div class="bottom">
-        <label class="tag">无担保</label>
+        <label class="tag" @click="cleanToken">无担保</label>
         <label class="tag1"></label>
         <label class="tag">无抵押</label>
         <label class="tag1"></label>
@@ -70,6 +70,10 @@
       this.getVerifyCode();
     },
     methods: {
+      cleanToken: function(){
+        alert("清空");
+        localStorage.clear();
+      },
       getVerifyCode: function(){
         let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
         this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');

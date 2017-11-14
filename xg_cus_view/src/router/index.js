@@ -81,21 +81,29 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if(localStorage.getItem("_cusToken")){
+  if(process.env.IS_WX == 0){
     next();
   }else{
-    alert(to.path);
-    if(localStorage.getItem("_openId")){
+    if(localStorage.getItem("_cusToken")){
       next();
     }else{
-      if(to.path.indexOf("/login") != -1 ||
-        to.path.indexOf("/auth/") != -1){
+      // alert(to.path);
+      if(localStorage.getItem("_openId") && to.path.indexOf("/register/") != -1){
         next();
       }else{
-        let theRequest = getRequest();
-        let code = theRequest['code'];
-        if(code){
-          next("/auth/" + code);
+        if(to.path.indexOf("/login") != -1 ||
+          to.path.indexOf("/auth/") != -1){
+          next();
+        }else{
+          let theRequest = getRequest();
+          let code = theRequest['code'];
+          if(code){
+            if(to.path.indexOf("/register/") == -1){
+              // alert("index.js/isGoOut");
+              localStorage.setItem("isGoOut", 1);
+            }
+            next("/auth/" + code);
+          }
         }
       }
     }
