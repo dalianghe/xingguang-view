@@ -118,6 +118,7 @@
       },
       submit: function (event) {
         var vm = this;
+        vm.data.openId = localStorage.getItem("_openId");
         vm.$indicator.open();
         this.$http.post('/auth/register', vm.data)
           .then(function (response) {

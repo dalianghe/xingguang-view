@@ -28,7 +28,7 @@ a { text-decoration:none;}
 }
 
 input[type=text]{
-  outline:none;
+  /*outline:none;*/
   font-size: 1.08rem;
 }
 
@@ -90,8 +90,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .box .content .input .text{
   border: none;
-  -webkit-user-select: auto;
   height: 3.5rem;
+  width: 100rem;
+  background-color: #4caf50;
 }
 
 dl, dt, dd {
@@ -109,14 +110,17 @@ dl {
 dt {
   width: 30%;
   float: left;
+  background-color: #9338af;
   color: #999999;
   line-height: 3.6rem;
 }
 
 dd {
+  width: 68%;
+  float: right;
   margin: 0;
   padding: 0;
-  float: left;
+  background-color: #1934af;
   color: #333333;
   line-height: 3.5rem;
 }

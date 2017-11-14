@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Hello from '@/components/Hello'
 import register from '@/components/register'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
 
   routes: [
     {
@@ -72,6 +71,49 @@ export default new Router({
       path: '/info',
         name: 'info',
       component: resolve => require(['../components/info.vue'], resolve)
+    },
+    {
+      path: '/auth/:code',
+        name: 'auth',
+      component: resolve => require(['../components/auth.vue'], resolve)
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if(localStorage.getItem("_cusToken")){
+    next();
+  }else{
+    alert(to.path);
+    if(localStorage.getItem("_openId")){
+      next();
+    }else{
+      if(to.path.indexOf("/login") != -1 ||
+        to.path.indexOf("/auth/") != -1){
+        next();
+      }else{
+        let theRequest = getRequest();
+        let code = theRequest['code'];
+        if(code){
+          next("/auth/" + code);
+        }
+      }
+    }
+  }
+
+});
+
+function getRequest() {
+  var url = location.search; //获取url中"?"符后的字串
+  var theRequest = new Object();
+  if (url.indexOf("?") != -1) {
+    let str = url.substr(1);
+    let strs = str.split("&");
+    for(var i = 0; i < strs.length; i ++) {
+      theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+    }
+  }
+  return theRequest;
+}
+
+export default router;
