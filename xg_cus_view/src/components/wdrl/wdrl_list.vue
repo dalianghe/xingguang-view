@@ -1,5 +1,9 @@
 <template>
   <div class="box">
+    <div v-show="list.length == 0" class="contentAlert">
+      <div class="img unlist"></div>
+      <div class="msg">暂无数据</div>
+    </div>
     <div class="row clears" v-for="obj in list">
       <div class="title clears">
         <div class="left clears">订单号：{{8000000000 + obj.id}}</div>
@@ -176,5 +180,7 @@
   .box .row .content .right a:first-child{
     margin-top:0.8rem;
   }
+
+
 
 </style>

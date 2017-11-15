@@ -17,13 +17,27 @@
       </div>
     </div>
 
-    <router-link to="wdrlapply" class="button">
-      立即提款
-    </router-link>
+    <div v-if = "data.creditInfo != null">
+      <router-link v-show="data.creditInfo.status == 1" to="wdrlapply" class="button">
+        立即提款
+      </router-link>
+      <a v-show="data.creditInfo.status == 2" class="button">
+        已锁定
+      </a>
+    </div>
+    <div v-else-if="data.creditApply != null">
+      <a v-show="data.creditApply.status == 1" class="button">
+        授信审核中
+      </a>
+      <a v-show="data.creditApply.status == 3" class="button">
+        授信不通过
+      </a>
+    </div>
+
 
     <div class="logo2">
       <div class="bottom">
-        <label class="tag" @click="cleanToken">无担保</label>
+        <label class="tag">无担保</label>
         <label class="tag1"></label>
         <label class="tag">无抵押</label>
         <label class="tag1"></label>
@@ -54,8 +68,12 @@
         var vm = this;
         this.$http.get('/credit/info')
           .then(function (response) {
-            console.info( response.data);
             vm.data = response.data;
+            if(vm.data.creditInfo){
+              vm.data.finalAmount = vm.data.creditInfo.finalAmount;
+              vm.data.unusedAmount = vm.data.creditInfo.unusedAmount;
+              vm.data.usedAmount = vm.data.creditInfo.usedAmount;
+            }
           })
           .catch(function (response) {
           });

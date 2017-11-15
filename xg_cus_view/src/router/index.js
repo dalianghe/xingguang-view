@@ -76,6 +76,11 @@ var router = new Router({
       path: '/auth/:code',
         name: 'auth',
       component: resolve => require(['../components/auth.vue'], resolve)
+    },
+    {
+      path: '/common/ok',
+        name: 'ok',
+      component: resolve => require(['../components/common/ok.vue'], resolve)
     }
   ]
 })

@@ -46,6 +46,8 @@
     <div class="jb6"></div>
     <div class="jb7"></div>
     <div class="jb8"></div>
+    <div class="jb9"></div>
+    <div class="jb10"></div>
   </div>
 </template>
 
@@ -60,7 +62,11 @@
           phone: "",
           imgCode: "",
           smsCode: ""
-        }
+        },
+        chars : ['2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z'],
+        smsChars : ['1','2','3','4','5','6','7','8','9','0'],
+        tempCode: "",
+        smsTempCode: ""
       }
     },
     created: function () {
@@ -75,17 +81,27 @@
         localStorage.clear();
       },
       getVerifyCode: function(){
-        let url = this.$http.defaults.baseURL + '/verify/code?' + new Date().getTime();
-        this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center center; background-size: contain');
+        this.tempCode = this.generateMixed(this.chars, 4);
+        let url = this.$http.defaults.baseURL + '/verify/code/' + this.tempCode + '?' + new Date().getTime();
+        this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center right; background-size: contain');
+      },
+      generateMixed: function (chars, n){
+        var res = "";
+        for(var i = 0; i < n ; i ++) {
+          var id = Math.ceil(Math.random() * (chars.length-1));
+          res += chars[id];
+        }
+        return res;
       },
       sendSms: function(){
         var vm = this;
         let phone = vm.data.phone;
-//        if(imgCode.length != 4){
-//          return;
-//        }
+        if(imgCode.length != 4){
+          return;
+        }
         vm.$indicator.open();
-        this.$http.get('/sms/send/' + phone)
+        this.smsTempCode = this.generateMixed(this.smsChars, 4);
+        this.$http.get('/sms/send/' + phone + '/' + this.smsTempCode)
           .then(function (response) {
             vm.$indicator.close();
             if (response.bizCode == 0) {
@@ -98,30 +114,40 @@
       validateVerifyCode: function(){
         var vm = this;
         let imgCode = vm.data.imgCode;
-        if(imgCode.length != 4){
-            return;
+        if(imgCode.length == 4){
+          if(imgCode.toUpperCase() == vm.tempCode){
+            vm.smsFlag = true;
+            vm.sendSms();
+          }else{
+            vm.$toast("图形验证码错误");
+            vm.data.imgCode = '';
+            vm.getVerifyCode();
+          }
+//          vm.$indicator.open();
+//          this.$http.post('/verify/code/' + imgCode)
+//            .then(function (response) {
+//              vm.$indicator.close();
+//              if (response.bizCode == 0) {
+//                let flag = response.data;
+//                if (flag == 1) {
+//                  vm.smsFlag = true;
+//                  vm.sendSms();
+//                }else{
+//                  vm.$toast("图形验证码错误");
+//                  vm.data.imgCode = '';
+//                  vm.getVerifyCode();
+//                }
+//              } else {
+//                vm.$toast(response.msg);
+//              }
+//            })
         }
-        vm.$indicator.open();
-        this.$http.get('/verify/code/' + imgCode)
-          .then(function (response) {
-            vm.$indicator.close();
-            if (response.bizCode == 0) {
-              let flag = response.data;
-              if (flag == 1) {
-                vm.smsFlag = true;
-                vm.sendSms();
-              }else{
-                vm.$toast("图形验证码错误");
-                vm.data.imgCode = '';
-                vm.getVerifyCode();
-              }
-            } else {
-              vm.$toast(response.msg);
-            }
-          })
       },
       submit: function (event) {
         var vm = this;
+        if(vm.smsTempCode != vm.data.smsCode){
+          vm.$toast("注册成功");
+        }
         vm.data.openId = localStorage.getItem("_openId");
         vm.$indicator.open();
         this.$http.post('/auth/register', vm.data)
@@ -190,6 +216,7 @@
   }
 
   #ewmP{
+    position: relative;
     align-content: left;
     text-align:left;
   }
@@ -214,15 +241,16 @@
   }
 
   #ewminput{
-    width:13rem;
+    /*width:12rem;*/
   }
 
   #ewm{
-    float: right;
+    position: absolute;
     display: block;
-    width:4.5rem;
-    height: 2rem;
-    border-style:none;
+    width: 5rem;
+    height: 2.0rem;
+    top: 0rem;
+    left: 13rem;
   }
 
   .box .contentR .content1 a{
@@ -272,85 +300,6 @@
     border-left: 1px solid #ffedf4;
   }
 
-  .box .jb1{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 1rem;
-    left: 1rem;
-  }
-
-  .box .jb2{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 7rem;
-    left: 12rem;
-  }
-
-  .box .jb3{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 11rem;
-    left: 11rem;
-  }
-
-  .box .jb4{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 3rem;
-    left: 8rem;
-  }
-
-  .box .jb5{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 6rem;
-    left: 11rem;
-  }
-
-  .box .jb6{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 4rem;
-    left: 8rem;
-  }
-
-  .box .jb7{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 5rem;
-    left: 10rem;
-  }
-
-  .box .jb8{
-    position: absolute;
-    background:url(/static/cus/img/register/jb1.png) no-repeat left center;
-    background-size: contain;
-    width: 20rem;
-    height: 3rem;
-    top: 2rem;
-    left: 20rem;
-  }
 
   @-webkit-keyframes twinkling{
     0%{

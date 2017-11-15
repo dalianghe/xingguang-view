@@ -20,7 +20,7 @@
         <dl v-show="smsCodeShow" >
           <dt>短信验证码</dt>
           <dd>
-            <input class="text" v-model="data.captcha" type="password"/>
+            <input class="text" v-model="data.captcha" type="text"/>
           </dd>
         </dl>
         <dl v-show="queryCodeShow" >
@@ -33,7 +33,7 @@
     </div>
     <div class="btns">
       <div class="btnbox">
-        <a v-show="authShow" v-on:click="cellAuth">授权</a>
+        <a v-show="authShow" v-on:click="cellAuth">运营商授权</a>
         <a v-show="cellShow" v-on:click="cellCollect">完成</a>
       </div>
     </div>
@@ -112,6 +112,7 @@
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("授信申请已提交,请耐心等待!");
+              vm.$router.push("/common/ok");
             }else{
               vm.$toast(response.msg);
             }
@@ -151,7 +152,7 @@
               let data = response.data;
               console.info(data);
               wx.config({
-                debug: true, //开启调试模式
+                debug: false, //开启调试模式
                 appId: data.appId, // 必填，公众号的唯一标识
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串

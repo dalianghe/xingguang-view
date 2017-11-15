@@ -6,6 +6,10 @@
         <img class="img" src="/static/cus/img/add.png"/>
       </router-link>
     </div>
+    <div v-show="bankList.length == 0" class="contentAlert">
+      <div class="img unlist"></div>
+      <div class="msg">暂无数据</div>
+    </div>
     <div class="bank_box">
       <transition-group name="root" tag="p" mode="out-in">
         <div class="bank clears" v-for="obj in bankList" v-show="obj.cusBankCard.status == 1" key="obj.cusBankCard.id">
