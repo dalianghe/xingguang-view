@@ -12,7 +12,7 @@
           </dd>
         </dl>
         <dl>
-          <dt>身份这号</dt>
+          <dt>身份证号</dt>
           <dd>
             <input class="text" type="text" @input="changeIdNo" v-model="data.idNo"/>
           </dd>
@@ -93,6 +93,9 @@
         }
       },
       submit: function (event) {
+        if(!this.validate()){
+          return;
+        }
         var vm = this;
         let formData = new window.FormData();
         console.info(vm.data);
@@ -115,6 +118,34 @@
             vm.$toast(response.msg);
           }
         })
+      },
+      validate : function(){
+        var vm = this;
+        if(this.$tools.isNull(vm.data.name)){
+          vm.$toast("请填写姓名");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.idNo)){
+          vm.$toast("请填写身份证号");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.sexName)){
+          vm.$toast("请填写合法的身份证号");
+          return false;
+        }
+        if(vm.$refs.realImg1.value == ""){
+          vm.$toast("请添加身份证正面");
+          return false;
+        }
+        if(vm.$refs.realImg2.value == ""){
+          vm.$toast("请添加身份证背面");
+          return false;
+        }
+        if(vm.$refs.realImg3.value == ""){
+          vm.$toast("请添加手持身份证");
+          return false;
+        }
+        return true;
       }
     }
   }

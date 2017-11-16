@@ -95,17 +95,27 @@
       },
       sendSms: function(){
         var vm = this;
-        let phone = vm.data.phone;
-        if(imgCode.length != 4){
+        if(vm.data.phone.length != 11){
+          vm.$toast("请先填写手机号");
+          vm.data.imgCode = '';
+          vm.getVerifyCode();
+          return;
+        }
+        if(vm.data.imgCode.toUpperCase() != vm.tempCode){
+          vm.data.imgCode = '';
+          vm.getVerifyCode();
+          vm.$toast("图形验证码错误");
           return;
         }
         vm.$indicator.open();
         this.smsTempCode = this.generateMixed(this.smsChars, 4);
-        this.$http.get('/sms/send/' + phone + '/' + this.smsTempCode)
+        this.$http.get('/sms/send/' + vm.data.phone + '/' + this.smsTempCode)
           .then(function (response) {
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("验证码已发送");
+              vm.data.imgCode = '';
+              vm.getVerifyCode();
             } else {
               vm.$toast(response.msg);
             }
@@ -113,9 +123,14 @@
       },
       validateVerifyCode: function(){
         var vm = this;
-        let imgCode = vm.data.imgCode;
-        if(imgCode.length == 4){
-          if(imgCode.toUpperCase() == vm.tempCode){
+        if(vm.data.imgCode.length == 4){
+          if(vm.data.phone.length != 11){
+            vm.$toast("请先填写手机号");
+            vm.data.imgCode = '';
+            vm.getVerifyCode();
+            return;
+          }
+          if(vm.data.imgCode.toUpperCase() == vm.tempCode){
             vm.smsFlag = true;
             vm.sendSms();
           }else{
@@ -124,7 +139,7 @@
             vm.getVerifyCode();
           }
 //          vm.$indicator.open();
-//          this.$http.post('/verify/code/' + imgCode)
+//          this.$http.post('/verify/code/' + vm.data.imgCode)
 //            .then(function (response) {
 //              vm.$indicator.close();
 //              if (response.bizCode == 0) {
@@ -146,7 +161,8 @@
       submit: function (event) {
         var vm = this;
         if(vm.smsTempCode != vm.data.smsCode){
-          vm.$toast("注册成功");
+          vm.$toast("验证码错误");
+          return;
         }
         vm.data.openId = localStorage.getItem("_openId");
         vm.$indicator.open();

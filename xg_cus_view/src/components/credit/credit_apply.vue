@@ -67,6 +67,10 @@
     },
     methods: {
       cellAuth: function(){
+        if(this.$tools.isNull(this.data.phonePwd)){
+          this.$toast("请填写服务密码");
+          return;
+        }
         var vm = this;
         let cellAuthData = {
           name: localStorage.getItem("_cusName"),
@@ -84,6 +88,14 @@
           })
       },
       cellCollect: function(){
+        if(this.smsCodeShow && this.$tools.isNull(this.data.captcha)){
+          this.$toast("请填写短信验证码");
+          return;
+        }
+        if(this.queryCodeShow && this.$tools.isNull(this.data.queryPwd)){
+          this.$toast("请填写查询密码");
+          return;
+        }
         var vm = this;
         let cellCollectData = {
           token: vm.tokenData.token,

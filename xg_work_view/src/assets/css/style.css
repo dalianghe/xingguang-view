@@ -10,3 +10,219 @@ a, img {
   -webkit-touch-callout: none; /*禁止长按链接与图片弹出菜单*/
 }
 
+a { text-decoration:none;}
+
+.clears:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.clears {
+  zoom: 1;
+}
+
+.mint-popup-width-full{
+  width: 100%;
+}
+
+input[type=text]{
+  /*outline:none;*/
+  font-size: 1.08rem;
+}
+
+input[type=password]{
+  outline:none;
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width:320px){html{font-size:14px}}
+@media screen and (min-width:321px) and (max-width:375px){html{font-size:16px}}
+@media screen and (min-width:376px) and (max-width:414px){html{font-size:17px}}
+@media screen and (min-width:415px) and (max-width:639px){html{font-size:20px}}
+@media screen and (min-width:640px) and (max-width:719px){html{font-size:22px}}
+@media screen and (min-width:720px) and (max-width:749px){html{font-size:25px}}
+@media screen and (min-width:750px) and (max-width:799px){html{font-size:30px}}
+@media screen and (min-width:800px){html{font-size:32px}}
+
+
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color:#AAAAAA;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color:#AAAAAA;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color:#AAAAAA;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color:#AAAAAA;
+}
+
+.box{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #F8F8F8;
+}
+
+.box .bzbox{
+  border-bottom: 1px solid rgba(230, 233, 237, 1);
+}
+
+.box .bz{
+  width: 92%;
+  height: 5rem;
+  margin: 0 auto;
+  background:url(/static/img/information/bz.png) no-repeat center center;
+  background-size: 100% auto
+}
+.box .content{
+  vertical-align: top;
+  background-color: #FFF;
+}
+.box .content .input{
+}
+
+.box .content .input .text{
+  border: none;
+  height: 3.5rem;
+  width: 80%;
+}
+
+dl, dt, dd {
+  display: block;
+}
+
+dl {
+  overflow: hidden;
+  width: 92%;
+  margin: 0 auto;
+  height: 3.5rem;
+  border-bottom: 1px solid rgba(230, 233, 237, 1);
+}
+
+dt {
+  width: 30%;
+  float: left;
+  color: #999999;
+  line-height: 3.6rem;
+}
+
+dd {
+  width: 68%;
+  float: right;
+  margin: 0;
+  padding: 0;
+  color: #333333;
+  line-height: 3.5rem;
+}
+
+.btns{
+  margin-top: 1.5rem;
+}
+
+.btnbox{
+  width: 94%;
+  margin: 0 auto;
+}
+
+.btnbox a{
+  display: block;
+  color: #ffffff;
+  background-color: rgba(241, 2, 22, 1);
+  border-radius: 5px 5px 5px 5px;
+  height: 3rem;
+  text-align: center;
+  line-height: 3rem;
+  font-size: 1.2rem;
+}
+
+.readonly {
+  color: #666666;
+}
+
+.arrow{
+  float: right;
+  margin-top: 1.2rem;
+  margin-right: 1.2rem;
+  border-right: 1px solid silver;
+  border-bottom: 1px solid silver;
+  width: 0.7rem;
+  height: 0.7rem;
+  transform: rotate(-45deg);
+}
+
+.arrow1 {
+  margin-top: 1.4rem;
+}
+
+.textleft {
+  text-align: right;
+}
+
+.box .contentAlert{
+  width: 15rem;
+  margin: 0 auto;
+  margin-top: 9rem;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: 	Microsoft YaHei;
+}
+.box .contentAlert .img{
+  background:url(/static/work/img/gongxi.png) no-repeat center center;
+  background-size: contain;
+  height: 8rem;
+  width: 8rem;
+  margin: 0 auto;
+  opacity:0.4;
+  filter:alpha(opacity=40);
+}
+
+.box .contentAlert .msg{
+  text-align: center;
+  width: 13rem;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  color: #666666;
+  font-size: 1.3rem;
+}
+.box .contentAlert .ok{
+  background:url(/static/work/img/gongxi.png) no-repeat center center;
+  background-size: contain;
+}
+.box .contentAlert .unlist{
+  background:url(/static/work/img/unlist.png) no-repeat center center;
+  background-size: contain;
+}
+
+
+
+.selectbt{
+  position: relative;
+  width: 100%;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  color: #26a2ff;
+  border-bottom: 1px solid #999999;
+}
+.selectbt .qx{
+  float: left;
+  /*width: 50%;*/
+  height: 2rem;
+  padding-left: 1rem;
+  line-height: 2.5rem;
+  background-color: #FFFFFF;
+}
+.selectbt .qd{
+  float: right;
+  /*width: 50%;*/
+  height: 2rem;
+  padding-right: 1rem;
+  line-height: 2.5rem;
+  background-color: #FFFFFF;
+}

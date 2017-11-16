@@ -1,88 +1,172 @@
 <template>
-  <div class="register">
-    <input type="text" v-model="data.phone"/>
-    <input type="text" v-model="data.imgCode"/>
-    <input type="text" v-model="data.smsCode"/>
-    <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">
-    <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-    <button v-on:click="submit">确定</button>
+  <div class="box">
+    <div class="logo1"></div>
+    <div class="contentR">
+      <div class="content1">
+        <p>
+          <input type="text" v-model="data.phone" placeholder="您的手机号"/>
+        </p>
+        <p id="ewmP">
+          <input type="text" id="ewminput" v-model="data.imgCode" @input="validateVerifyCode" placeholder="图形验证码"/>
+          <input type="text" readonly="readonly" id="ewm" ref="ewm" @click="getVerifyCode"/>
+        </p>
+        <p v-show="smsFlag">
+          <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
+        </p>
+        <p id="smsSend" v-show="smsFlag">
+          <label @click="sendSms">未收到短信验证码？</label>
+        </p>
+        <!--<p>-->
+          <!--<input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">-->
+        <!--<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>-->
+        <!--</p>-->
+        <p>
+          <a v-on:click="submit">确定</a>
+        </p>
+      </div>
+    </div>
+    <div class="logo2">
+      <div class="bottom">
+        <label class="tag" @click="cleanToken">放飞梦想从现在开始</label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import wx from 'weixin-js-sdk';
-//  var wx = require('weixin-js-sdk');
   export default {
     name: 'register',
     data() {
       return {
+        smsFlag:false,
         data: {
           phone: "",
           imgCode: "",
           smsCode: ""
         },
-        jsApiList:["getLocation"]
+        chars : ['2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z'],
+        smsChars : ['1','2','3','4','5','6','7','8','9','0'],
+        tempCode: "",
+        smsTempCode: ""
       }
     },
     created: function () {
-      console.info(wx);
-      this.initWxConfig();
+      this.data.workUserId = this.$route.params.key;
+    },
+    mounted: function () {
+      this.getVerifyCode();
     },
     methods: {
+      cleanToken: function(){
+        alert("清空");
+        localStorage.clear();
+      },
+      getVerifyCode: function(){
+        this.tempCode = this.generateMixed(this.chars, 4);
+        let url = this.$http.defaults.baseURL + '/verify/code/' + this.tempCode + '?' + new Date().getTime();
+        this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center right; background-size: contain');
+      },
+      generateMixed: function (chars, n){
+        var res = "";
+        for(var i = 0; i < n ; i ++) {
+          var id = Math.ceil(Math.random() * (chars.length-1));
+          res += chars[id];
+        }
+        return res;
+      },
+      sendSms: function(){
+        var vm = this;
+        if(vm.data.phone.length != 11){
+          vm.$toast("请先填写手机号");
+          vm.data.imgCode = '';
+          vm.getVerifyCode();
+          return;
+        }
+        if(vm.data.imgCode.toUpperCase() != vm.tempCode){
+          vm.data.imgCode = '';
+          vm.getVerifyCode();
+          vm.$toast("图形验证码错误");
+          return;
+        }
+        vm.$indicator.open();
+        this.smsTempCode = this.generateMixed(this.smsChars, 4);
+        this.$http.get('/sms/send/' + vm.data.phone + '/' + this.smsTempCode)
+          .then(function (response) {
+            vm.$indicator.close();
+            if (response.bizCode == 0) {
+              vm.$toast("验证码已发送");
+              vm.data.imgCode = '';
+              vm.getVerifyCode();
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+      },
+      validateVerifyCode: function(){
+        var vm = this;
+        if(vm.data.imgCode.length == 4){
+          if(vm.data.phone.length != 11){
+            vm.$toast("请先填写手机号");
+            vm.data.imgCode = '';
+            vm.getVerifyCode();
+            return;
+          }
+          if(vm.data.imgCode.toUpperCase() == vm.tempCode){
+            vm.smsFlag = true;
+            vm.sendSms();
+          }else{
+            vm.$toast("图形验证码错误");
+            vm.data.imgCode = '';
+            vm.getVerifyCode();
+          }
+//          vm.$indicator.open();
+//          this.$http.post('/verify/code/' + vm.data.imgCode)
+//            .then(function (response) {
+//              vm.$indicator.close();
+//              if (response.bizCode == 0) {
+//                let flag = response.data;
+//                if (flag == 1) {
+//                  vm.smsFlag = true;
+//                  vm.sendSms();
+//                }else{
+//                  vm.$toast("图形验证码错误");
+//                  vm.data.imgCode = '';
+//                  vm.getVerifyCode();
+//                }
+//              } else {
+//                vm.$toast(response.msg);
+//              }
+//            })
+        }
+      },
       submit: function (event) {
         var vm = this;
+        if(vm.smsTempCode != vm.data.smsCode){
+          vm.$toast("验证码错误");
+          return;
+        }
+        vm.data.openId = localStorage.getItem("_openId");
+        if(process.env.IS_WX == 0){
+          vm.data.openId = "openid666";
+        }
+        vm.$indicator.open();
         this.$http.post('/auth/register', vm.data)
           .then(function (response) {
+            vm.$indicator.close();
             if (response.bizCode == 0) {
               let token = response.data;
               if (token) {
                 localStorage.setItem("_workToken", token);
+                localStorage.setItem("_workUserId", response.msg);
+                localStorage.setItem("_workPhone", vm.data.phone);
               }
               vm.$toast("注册成功");
-              vm.$router.push("/real");
+              vm.$router.push("/info");
             } else {
               vm.$toast(response.msg);
             }
           })
-          .catch(function (response) {
-          });
-      },
-      initWxConfig: function (event) {
-        var vm = this;
-        this.$http.get('/wx/getWxConfig')
-          .then(function (response) {
-            if (response.bizCode == 0) {
-              let data = response.data;
-              console.info(data);
-              wx.config({
-                debug: true, //开启调试模式
-                appId: data.appId, // 必填，公众号的唯一标识
-                timestamp: data.timestamp, // 必填，生成签名的时间戳
-                nonceStr: data.nonceStr, // 必填，生成签名的随机串
-                signature: data.signature,// 必填，签名
-                jsApiList: ["getLocation"] //必填，需要使用的JS接口列表
-              });
-              console.info(1);
-              wx.ready(function(){
-                console.info(2);
-                wx.getLocation({
-                  success: function (res) {
-                    alert("小宝鸽获取地理位置成功，经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
-                    console.info("小宝鸽获取地理位置成功，经纬度为：（" + res.latitude + "，" + res.longitude + "）" );
-                  },
-                  fail: function(error) {
-                    console.info("获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！");
-                  }
-                });
-                console.info(3);
-              });
-              console.info(4);
-            } else {
-              vm.$toast(response.msg);
-            }
-          })
-          .catch(function (response) {
-          });
       }
     },
     vuerify: {
@@ -96,6 +180,139 @@
 </script>
 
 <style scoped>
-  .register {
+  .box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-image: linear-gradient(0deg,
+    rgba(252, 72, 159, 1) 0%,
+    rgba(245, 79, 57, 1) 100%);
+    z-index: -2;
   }
+
+  .box .logo1{
+    height: 12rem;
+    width:80%;
+    margin:0 auto;
+    margin-top:2rem;
+    background:url(/static/work/img/register/logo1.png) no-repeat center center;
+    background-size: 100% auto
+  }
+
+  .box .contentR{
+    height: 12rem;
+  }
+
+  .box .contentR .content1{
+    width: 18rem;
+    margin: 0 auto;
+    align-content: center;
+    text-align:center;
+  }
+  .box .contentR .content1 p{
+    width: 18rem;
+    margin: 1rem auto;
+    align-content: center;
+    text-align:center;
+  }
+
+  #ewmP{
+    position: relative;
+    align-content: left;
+    text-align:left;
+  }
+
+  #smsSend{
+    align-content: right;
+    text-align:right;
+    font-size: 0.5rem;
+    color:#fff;
+    line-height: 0.1rem;
+  }
+
+  .box .contentR .content1 input{
+    width: 18rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #CCC;
+    line-height: 2rem;
+    text-indent: 1rem;
+    font-size: 1rem;
+  }
+
+  #ewminput{
+    /*width:12rem;*/
+  }
+
+  #ewm{
+    position: absolute;
+    display: block;
+    width: 5rem;
+    height: 2.0rem;
+    top: 0rem;
+    left: 13rem;
+  }
+
+  .box .contentR .content1 a{
+    display: block;
+    width: 18rem;
+    height: 2rem;
+    background-color: rgba(255, 123, 183, 1);
+    box-shadow: 0px 7px 0px 0px
+    rgba(226, 56, 106, 0.4);
+    border-radius: 0.4rem;
+    color: #ffffff;
+    line-height: 2rem;
+  }
+
+  .box .logo2{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 10rem;
+    background:url(/static/work/img/register/logo2.png) no-repeat center center;
+    background-size: 100% auto;
+    vertical-align:bottom;
+    z-index: -1;
+  }
+
+  .box .logo2 .bottom{
+    position: absolute;
+    bottom: 1.2rem;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto;
+    align-content: center;
+    text-align:center;
+  }
+
+  .box .logo2 .bottom .tag{
+    display: inline-block;
+    letter-spacing: 0px;
+    color: #ffedf4;
+    width: 13rem;
+  }
+
+
+  @-webkit-keyframes twinkling{
+    0%{
+      opacity:0.1;
+    }
+    100%{
+      opacity:1;
+    }
+  }
+  @keyframes twinkling{
+    0%{
+      opacity:0.1;
+    }
+    100%{
+      opacity:1;
+    }
+  }
+
 </style>

@@ -1,7 +1,7 @@
 export default {
   install: function (Vue, options) {
-    Vue.filter('formatTime', function (value) {
-      Date.prototype.Format = function (fmt) { //author: meizz
+    Vue.filter('formatTime', function (value, type) {
+      Date.prototype.Format = function (fmt) {
         var o = {
           "M+": this.getMonth() + 1, //月份
           "d+": this.getDate(), //日
@@ -18,7 +18,11 @@ export default {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
       }
-      return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+      if(type == 'dateTime'){
+        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+      }else{
+        return new Date(value).Format("yyyy-MM-dd");
+      }
     })
 
     Vue.filter('formatMoney', function (value) {
@@ -62,6 +66,20 @@ export default {
           num = num.toFixed(2);
         }
         return num;
+      },
+      cloneFormData: function(formData, obj) {
+        for(let o in obj){
+          formData.append(o, obj[o]);
+        }
+      },
+      isNull: function(obj) {
+        if(obj == null || obj == undefined || this.trim(obj) == ""){
+          return true;
+        }
+        return false;
+      },
+      trim: function(s){
+        return s.replace(/(^\s*)|(\s*$)/g, '')
       }
 
     }

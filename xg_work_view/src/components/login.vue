@@ -23,6 +23,7 @@ export default {
         let token = response.data;
         if(token){
           localStorage.setItem("_workToken", token);
+          localStorage.setItem("_workPhone", vm.phone);
         }
       })
       .catch(function (response) {

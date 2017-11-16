@@ -91,7 +91,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .box .content .input .text{
   border: none;
   height: 3.5rem;
-  width: 100rem;
+  width: 80%;
 }
 
 dl, dt, dd {
@@ -118,7 +118,6 @@ dd {
   float: right;
   margin: 0;
   padding: 0;
-  background-color: #1934af;
   color: #333333;
   line-height: 3.5rem;
 }
@@ -298,4 +297,29 @@ dd {
 .box .contentAlert .unlist{
   background:url(/static/cus/img/unlist.png) no-repeat center center;
   background-size: contain;
+}
+
+.selectbt{
+  position: relative;
+  width: 100%;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  color: #26a2ff;
+  border-bottom: 1px solid #999999;
+}
+.selectbt .qx{
+  float: left;
+  /*width: 50%;*/
+  height: 2rem;
+  padding-left: 1rem;
+  line-height: 2.5rem;
+  background-color: #FFFFFF;
+}
+.selectbt .qd{
+  float: right;
+  /*width: 50%;*/
+  height: 2rem;
+  padding-right: 1rem;
+  line-height: 2.5rem;
+  background-color: #FFFFFF;
 }

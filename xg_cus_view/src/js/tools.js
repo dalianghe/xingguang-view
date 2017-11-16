@@ -71,6 +71,15 @@ export default {
         for(let o in obj){
           formData.append(o, obj[o]);
         }
+      },
+      isNull: function(obj) {
+        if(obj == null || obj == undefined || this.trim(obj) == ""){
+          return true;
+        }
+        return false;
+      },
+      trim: function(s){
+        return s.replace(/(^\s*)|(\s*$)/g, '')
       }
 
     }

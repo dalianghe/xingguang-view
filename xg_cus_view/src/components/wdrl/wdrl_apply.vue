@@ -5,6 +5,10 @@
       v-model="popupVisible"
       popup-transition="popup-fade"
       position="bottom">
+      <div class="selectbt">
+        <div class="qx" @click="selectQX">取消</div>
+        <div class="qd" @click="selectQD">确定</div>
+      </div>
       <mt-picker :slots="slots" valueKey="name" @change="selectedBankCard"></mt-picker>
     </mt-popup>
     <div class="content clears">
@@ -53,7 +57,9 @@
             values: [],
             className: 'slot1'
           }
-        ]
+        ],
+        bankCardId:"",
+        bankName:""
       }
     },
     mounted: function () {
@@ -92,18 +98,37 @@
           }).catch(err => {});
           return;
         }
+        if(this.data.bankCardId == "" || this.data.bankCardId == null){
+          this.bankCardId = this.slots[0].values[0].id;
+          this.bankName = this.slots[0].values[0].name;
+        }else{
+          this.bankCardId = this.data.bankCardId;
+          this.bankName = this.data.bankName;
+        }
+
         this.popupVisible = true;
+      },
+      selectQD: function(){
+        this.data.bankCardId = this.bankCardId;
+        this.data.bankName = this.bankName;
+        this.popupVisible = false;
+      },
+      selectQX: function(){
+        this.popupVisible = false;
       },
       selectedBankCard : function(picker, values){
         if(!this.popupVisible){
           return;
         }
         if(picker.getValues()[0]){
-          this.data.bankCardId = picker.getValues()[0].id;
-          this.data.bankName = picker.getValues()[0].name;
+          this.bankCardId = picker.getValues()[0].id;
+          this.bankName = picker.getValues()[0].name;
         }
       },
       submit: function (event) {
+        if(!this.validate()){
+          return;
+        }
         var vm = this;
         vm.$indicator.open();
         this.$http.post('/wdrl/apply', vm.data)
@@ -119,6 +144,18 @@
               vm.$toast("服务器繁忙!");
             }
           })
+      },
+      validate : function(){
+        var vm = this;
+        if(this.$tools.isNull(vm.data.amount)){
+          vm.$toast("请填写提款金额");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.bankName)){
+          vm.$toast("请选择账户");
+          return false;
+        }
+        return true;
       }
     }
   }
