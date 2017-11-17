@@ -21,7 +21,7 @@
         <!--<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>-->
         <!--</p>-->
         <p>
-          <a v-on:click="submit">确定</a>
+          <a class="bt" v-on:click="submit">确定</a>
         </p>
       </div>
     </div>
@@ -96,8 +96,8 @@
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("验证码已发送");
-              vm.data.imgCode = '';
-              vm.getVerifyCode();
+//              vm.data.imgCode = '';
+//              vm.getVerifyCode();
             } else {
               vm.$toast(response.msg);
             }
@@ -220,8 +220,6 @@
 
   #ewmP{
     position: relative;
-    align-content: left;
-    text-align:left;
   }
 
   #smsSend{
@@ -256,7 +254,7 @@
     left: 13rem;
   }
 
-  .box .contentR .content1 a{
+  .box .contentR .content1 .bt{
     display: block;
     width: 18rem;
     height: 2rem;

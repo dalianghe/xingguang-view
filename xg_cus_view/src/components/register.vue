@@ -7,7 +7,7 @@
           <input type="text" v-model="data.phone" placeholder="您的手机号"/>
         </p>
         <p id="ewmP">
-          <input type="text" id="ewminput" v-model="data.imgCode" @input="validateVerifyCode" placeholder="图形验证码"/>
+          <input type="text" v-model="data.imgCode" @input="validateVerifyCode" placeholder="图形验证码"/>
           <input type="text" readonly="readonly" id="ewm" ref="ewm" @click="getVerifyCode"/>
         </p>
         <p v-show="smsFlag">
@@ -16,12 +16,8 @@
         <p id="smsSend" v-show="smsFlag">
           <label @click="sendSms">未收到短信验证码？</label>
         </p>
-        <!--<p>-->
-          <!--<input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email">-->
-        <!--<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>-->
-        <!--</p>-->
         <p>
-          <a v-on:click="submit">确定</a>
+          <a class="bt" v-on:click="submit">确定</a>
         </p>
       </div>
     </div>
@@ -114,8 +110,8 @@
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("验证码已发送");
-              vm.data.imgCode = '';
-              vm.getVerifyCode();
+//              vm.data.imgCode = '';
+//              vm.getVerifyCode();
             } else {
               vm.$toast(response.msg);
             }
@@ -233,8 +229,6 @@
 
   #ewmP{
     position: relative;
-    align-content: left;
-    text-align:left;
   }
 
   #smsSend{
@@ -256,10 +250,6 @@
     font-size: 1rem;
   }
 
-  #ewminput{
-    /*width:12rem;*/
-  }
-
   #ewm{
     position: absolute;
     display: block;
@@ -269,7 +259,7 @@
     left: 13rem;
   }
 
-  .box .contentR .content1 a{
+  .box .contentR .content1 .bt{
     display: block;
     width: 18rem;
     height: 2rem;
