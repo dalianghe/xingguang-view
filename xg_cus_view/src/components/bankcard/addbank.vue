@@ -14,20 +14,20 @@
     <div class="content clears">
       <div class="input">
         <dl>
-          <dt>银行</dt>
+          <dt>开户银行</dt>
           <dd @click="selectBank">
             <input type="text" class="text" placeholder="请选择银行" readonly="readonly" v-model="data.bankName"/>
             <div class="arrow arrow1"></div>
           </dd>
         </dl>
         <dl>
-          <dt>卡号</dt>
+          <dt>银行卡号</dt>
           <dd>
             <input type="text" class="text" placeholder="请输入银行卡卡号" v-model="data.cardNo"/>
           </dd>
         </dl>
         <dl>
-          <dt>联系人电话</dt>
+          <dt>预留手机号</dt>
           <dd>
             <input type="text" class="text" placeholder="请输入预留手机号" v-model="data.phone"/>
           </dd>
