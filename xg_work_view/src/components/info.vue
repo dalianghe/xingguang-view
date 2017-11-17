@@ -60,6 +60,7 @@
         data: {
           id: localStorage.getItem("_workUserId")
         },
+        provinceId:"",
         tpId:"",
         tpName:"",
         tcId:"",
@@ -138,6 +139,7 @@
       },
       select : function(){
         if(this.data.provinceId == "" || this.data.provinceId == null){
+          this.provinceId = this.slots[0].values[0].id
           this.tpId = this.slots[0].values[0].regionCode;
           this.tpName = this.slots[0].values[0].regionName;
           if(this.slots[2].values.length != 0){
@@ -150,7 +152,7 @@
           this.tcId = this.data.cityId;
           this.tcName = this.data.cityName;
         }
-        this.getCity(this.tpId);
+        this.getCity(this.provinceId);
         this.popupVisible = true;
       },
       selectQD: function(){
@@ -173,7 +175,8 @@
           if(this.tpId != pId){
             this.tpId = pId;
             this.tpName = picker.getValues()[0].regionName;
-            this.getCity(pId);
+            this.provinceId = picker.getValues()[0].id;
+            this.getCity(this.provinceId);
           }
           if(picker.getValues()[1]) {
             let cId = picker.getValues()[1].regionCode

@@ -142,7 +142,11 @@
       },
       submit: function (event) {
         var vm = this;
-        if(vm.smsTempCode != vm.data.smsCode){
+        if(vm.data.phone.length != 11) {
+          vm.$toast("请先填写手机号");
+          return;
+        }
+        if(vm.smsTempCode == "" || vm.smsTempCode != vm.data.smsCode){
           vm.$toast("验证码错误");
           return;
         }
