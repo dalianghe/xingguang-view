@@ -13,6 +13,11 @@ var router = new Router({
       component: resolve => require(['../components/register.vue'], resolve)
     },
     {
+      path: '/register/:key',
+      name: 'register',
+      component: resolve => require(['../components/register.vue'], resolve)
+    },
+    {
       path: '/',
       name: 'login',
       component: resolve => require(['../components/login.vue'], resolve)
@@ -38,6 +43,11 @@ var router = new Router({
       component: resolve => require(['../components/common/ok.vue'], resolve)
     },
     {
+      path: '/common/ok/:key',
+        name: 'ok',
+      component: resolve => require(['../components/common/ok.vue'], resolve)
+    },
+    {
       path: '/auth/:code',
         name: 'auth',
       component: resolve => require(['../components/auth.vue'], resolve)
@@ -46,6 +56,16 @@ var router = new Router({
       path: '/qr',
         name: 'qr',
       component: resolve => require(['../components/qr.vue'], resolve)
+    },
+    {
+      path: '/underlinglist',
+        name: 'underlinglist',
+      component: resolve => require(['../components/underling/underling_list.vue'], resolve)
+    },
+    {
+      path: '/underlingqr',
+        name: 'underlingqr',
+      component: resolve => require(['../components/underling/underling_qr.vue'], resolve)
     }
   ]
 })

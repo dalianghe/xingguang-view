@@ -191,6 +191,22 @@ dd {
   color: #666666;
   font-size: 1.3rem;
 }
+
+.box .contentAlert .back{
+  display: block;
+  text-align: center;
+  width: 10rem;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  color: #666666;
+  font-size: 1.1rem;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
 .box .contentAlert .ok{
   background:url(/static/work/img/gongxi.png) no-repeat center center;
   background-size: contain;

@@ -181,6 +181,7 @@
           })
       },
       selectCode : function(obj, id, name){
+        event.target.blur();
         if(this.data[obj][id] == "" || this.data[obj][id] == null){
           this._selectId = this[id + "List"][0].values[0].code;
           this._selectName = this[id + "List"][0].values[0].name;

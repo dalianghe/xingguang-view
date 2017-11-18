@@ -65,6 +65,7 @@
     },
     methods: {
       selectBank : function(){
+        event.target.blur();
         if(this.data.bankId == "" || this.data.bankId == null){
           this.pickerKey = this.slots[0].values[0].id;
           this.pickerName = this.slots[0].values[0].name;

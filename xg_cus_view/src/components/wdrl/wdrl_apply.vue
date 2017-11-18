@@ -91,6 +91,7 @@
         this.$router.push("/info");
       },
       selectBankCard : function(){
+        event.target.blur();
         var vm = this;
         if(vm.slots[0].values == 0){
           vm.$messagebox.confirm('您尚未绑定银行卡,前往绑定?').then(action => {
@@ -136,6 +137,7 @@
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("提款申请已提交,请耐心等待!");
+              vm.$router.push("/common/ok/my");
             }else if(response.bizCode == 1){
               vm.$toast("未发现授信记录!");
             }else if(response.bizCode == 2){

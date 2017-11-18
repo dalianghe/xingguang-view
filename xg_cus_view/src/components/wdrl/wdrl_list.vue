@@ -29,7 +29,7 @@
           </p>
         </div>
         <div class="right">
-          <router-link v-if="obj.status != 10 && obj.status != 20" class="button clears" :to="'/repymtlist/'+obj.id">
+          <router-link v-if="obj.status != 10 && obj.status != 20 && obj.status != 25 && obj.status != 35" class="button clears" :to="'/repymtlist/'+obj.id">
             还款计划
           </router-link>
           <router-link v-if="obj.status == 45" class="button clears" :to="'/repymtapply/'+obj.id">

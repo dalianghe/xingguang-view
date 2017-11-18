@@ -4,6 +4,12 @@
       <div class="content1">
         <div class="header"></div>
         <div class="name">{{data.name}}</div>
+        <div v-if="data.status == 1" class="name status ">审核中...</div>
+        <div v-else-if="data.status == 2" class="name status">
+          <span v-if="data.enableStatus == 1">停用</span>
+          <span v-else>审核通过</span>
+        </div>
+        <div v-else class="name status">审核不通过</div>
       </div>
     </div>
     <div class="bottom">
@@ -12,6 +18,20 @@
           <div class="menu">
             <div class="icon icon1"></div>
             <div class="title">我的客户</div>
+            <div class="arrow"></div>
+          </div>
+        </router-link>
+        <router-link v-if="data.status == 2 && data.enableStatus != 1" class="url clears" to="/qr">
+          <div class="menu">
+            <div class="icon icon2"></div>
+            <div class="title">我的二维码</div>
+            <div class="arrow"></div>
+          </div>
+        </router-link>
+        <router-link v-if="data.status == 2 && data.enableStatus != 1" class="url clears" to="/underlinglist">
+          <div class="menu">
+            <div class="icon icon3"></div>
+            <div class="title">我的下线</div>
             <div class="arrow"></div>
           </div>
         </router-link>
@@ -99,7 +119,7 @@
   }
 
   .box .top .content1 {
-    width: 5.5rem;
+    width: 13rem;
     height: 7.5rem;
     margin: 0 auto;
     margin-top: 4rem;
@@ -108,6 +128,7 @@
   .box .top .content1 .header {
     width: 5.5rem;
     height: 5.5rem;
+    margin: 0 auto;
     background: url(/static/work/img/my/header.png) no-repeat center center;
     background-size: contain;
   }
@@ -118,7 +139,15 @@
     font-size: 1.4rem;
     color: #ffffff;
     text-align: center;
+    margin: 0 auto;
     margin-top: 1rem;
+  }
+
+  .box .top .content1 .status {
+    width: 10rem;
+    font-size: 1.1rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
   }
 
   .box .bottom {
@@ -161,8 +190,20 @@
     filter: alpha(opacity=40)
   }
 
-  /*.menu .icon2{background:url(/static/work/img/my/2.png) no-repeat center center; background-size: contain;}*/
-  /*.menu .icon3{background:url(/static/work/img/my/3.png) no-repeat center center; background-size: contain;}*/
+  .menu .icon2 {
+    background: url(/static/work/img/my/myqr.png) no-repeat center center;
+    background-size: contain;
+    opacity: 0.4;
+    filter: alpha(opacity=40)
+  }
+
+  .menu .icon3 {
+    background: url(/static/work/img/my/underling_qr.png) no-repeat center center;
+    background-size: contain;
+    opacity: 0.4;
+    filter: alpha(opacity=40)
+  }
+
   .menu .icon4 {
     background: url(/static/work/img/my/4.png) no-repeat center center;
     background-size: contain;

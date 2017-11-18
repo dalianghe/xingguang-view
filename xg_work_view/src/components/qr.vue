@@ -24,13 +24,46 @@
       }
     },
     mounted: function () {
-      this.initWxConfig();
+      this.getInfo();
     },
     methods: {
+      getInfo: function (event) {
+        var vm = this;
+        this.$http.get('/info/user/' + localStorage.getItem("_workUserId"))
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              vm.data = response.data;
+              if(vm.data.status == 2 && vm.data.enableStatus != 1){
+                vm.initWxConfig();
+              }else{
+                if(vm.data.status == 1){
+                  alert("您还在审核中,不能生成二维码");
+                }else if(vm.data.status == 3){
+                  alert("您审核不通过,不能生成二维码");
+                }else{
+                  alert("您已被停用,不能生成二维码");
+                }
+                wx.config({
+                  debug: false, //开启调试模式
+                  appId: data.appId, // 必填，公众号的唯一标识
+                  timestamp: data.timestamp, // 必填，生成签名的时间戳
+                  nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                  signature: data.signature,// 必填，签名
+                  jsApiList: ["getLocation"] //必填，需要使用的JS接口列表
+                });
+                wx.ready(function() {
+                  wx.closeWindow();
+                });
+              }
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+      },
       getQR: function (lng, lat) {
         var vm = this;
         let workUserId = localStorage.getItem("_workUserId");
-        let url = process.env.API_ROOT + "/qrcode/code/"+workUserId+"/"+lng+"/" + lat;
+        let url = process.env.API_ROOT + "/qrcode/code/"+workUserId+"/"+lng+"/" + lat + "/";
         vm.$refs.qr.setAttribute('style', 'background: url('+url+') no-repeat center center; background-size: contain');
       },
       initWxConfig: function (event) {

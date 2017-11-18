@@ -124,7 +124,7 @@
             vm.$indicator.close();
             if (response.bizCode == 0) {
               vm.$toast("授信申请已提交,请耐心等待!");
-              vm.$router.push("/common/ok");
+              vm.$router.push("/common/ok/my");
             }else{
               vm.$toast(response.msg);
             }

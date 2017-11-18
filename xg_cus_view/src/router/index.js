@@ -81,6 +81,11 @@ var router = new Router({
       path: '/common/ok',
         name: 'ok',
       component: resolve => require(['../components/common/ok.vue'], resolve)
+    },
+    {
+      path: '/common/ok/:key',
+        name: 'ok',
+      component: resolve => require(['../components/common/ok.vue'], resolve)
     }
   ]
 })

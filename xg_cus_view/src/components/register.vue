@@ -76,7 +76,8 @@
         alert("清空");
         localStorage.clear();
       },
-      getVerifyCode: function(){
+      getVerifyCode: function(event){
+        event.target.blur();
         this.tempCode = this.generateMixed(this.chars, 4);
         let url = this.$http.defaults.baseURL + '/verify/code/' + this.tempCode + '?' + new Date().getTime();
         this.$refs.ewm.setAttribute('style', 'background: ' + 'url('+url+') no-repeat center right; background-size: contain');

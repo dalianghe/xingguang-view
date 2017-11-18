@@ -8,8 +8,8 @@
       <div class="title clears">
         <div class="left clears">{{obj.name}}</div>
         <div class="right right1 clears" v-if="obj.status == 1">待授信</div>
-        <div class="right right2 clears" v-else-if="obj.status == 3">授信不通过</div>
-        <div class="right right3 clears" v-else-if="obj.status == 2">授信通过</div>
+        <div class="right right2 clears" v-else-if="obj.status == 3">不通过</div>
+        <div class="right right3 clears" v-else-if="obj.status == 2">通过</div>
       </div>
 
       <div class="content">

@@ -137,7 +137,8 @@
             }
           })
       },
-      select : function(){
+      select : function(event){
+        event.target.blur();
         if(this.data.provinceId == "" || this.data.provinceId == null){
           this.provinceId = this.slots[0].values[0].id
           this.tpId = this.slots[0].values[0].regionCode;
@@ -181,7 +182,7 @@
           if(picker.getValues()[1]) {
             let cId = picker.getValues()[1].regionCode
             if (this.tcId != cId) {
-              this.tcId = pId;
+              this.tcId = cId;
               this.tcName = picker.getValues()[1].regionName;
             }
           }
@@ -196,7 +197,7 @@
           .then(function (response) {
             if (response.bizCode == 0) {
               vm.$toast("操作成功!");
-              vm.$router.push("/common/ok");
+              vm.$router.push("/common/ok/my");
             }else{
               vm.$toast(response.msg);
             }
