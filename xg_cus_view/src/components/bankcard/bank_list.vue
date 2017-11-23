@@ -19,13 +19,13 @@
           <div class="detail">
             <div class="title">{{ obj.cusBank.name }}</div>
             <div>
-              <div class="name">张三的的</div>
+              <div class="name">{{myName}}</div>
               <div class="phone">{{ obj.cusBankCard.phone }}</div>
             </div>
             <div class="bank_no">**** **** **** {{ obj.cusBankCard.cardNo }}</div>
           </div>
           <div class="unbind">
-            <a class="list_button" href="javascript:;" v-if="obj.cusBankCard.isDefault == 2" @click="def(obj.cusBankCard.id)">设为默认</a>
+            <a class="list_button" href="javascript:;" v-if="obj.cusBankCard.isDefault == 2" @click="def(obj.cusBankCard.id)">默认</a>
             <a class="list_button" href="javascript:;" @click="unbind(obj.cusBankCard.id)">解绑</a>
           </div>
         </div>
@@ -40,11 +40,13 @@
     name: 'banklist',
     data() {
       return {
+        myName:"",
         list: []
       }
     },
     mounted: function () {
       this.getList();
+      this.getInfo();
     },
     methods: {
       getList: function () {
@@ -75,25 +77,36 @@
 
         });
       },
+      getInfo: function (event) {
+        var vm = this;
+        this.$http.get('/cus/user/info')
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              vm.myName = response.data.name;
+            } else {
+              vm.$toast(response.msg);
+            }
+          })
+      },
       def: function (id) {
         var vm = this;
         vm.$messagebox.confirm('确定要设为默认账户吗?').then(action => {
           this.$http.patch('/bank/cards/' + id + '/def')
             .then(function (response) {
               if (response.bizCode == 0) {
-                let i = 0;
                 let k = 0;
-                for (var bank of vm.list) {
+                let bank;
+                for (var i = 0; i < vm.list.length; i++) {
+                  bank = vm.list[i]
                   if (bank.id == id) {
                     k = i;
                     bank.cusBankCard.isDefault = 1;
                   }else{
                     bank.cusBankCard.isDefault = 2;
-                    i++;
                   }
                 }
-                vm.list.splice(k, 1);
-                vm.list.unshift(bank);
+                //vm.list.splice(k, 1);
+                //vm.list.unshift(bank);
                 vm.$toast("设置成功!");
               } else {
                 vm.$toast("设置失败!");
@@ -197,7 +210,6 @@
     float: right;
     padding-top: 1rem;
     padding-right: 1rem;
-    width: 5.5rem;
   }
 
   .list_button {
@@ -205,7 +217,7 @@
     outline: none;
     font-size: 0.8rem;
     color: #a43b3b;
-    padding: 0.3rem 0.3rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 0.2rem;
     display: block;
     background-clip: padding-box;

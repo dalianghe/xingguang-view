@@ -31,7 +31,7 @@
         <router-link v-if="data.status == 2 && data.enableStatus != 1" class="url clears" to="/underlinglist">
           <div class="menu">
             <div class="icon icon3"></div>
-            <div class="title">我的下线</div>
+            <div class="title">我的业务员</div>
             <div class="arrow"></div>
           </div>
         </router-link>

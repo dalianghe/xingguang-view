@@ -63,6 +63,7 @@
       }
     },
     mounted: function () {
+      this.initWxConfig();
     },
     methods: {
       changeIdNo: function(){
@@ -83,10 +84,34 @@
         let imgFile = this.$refs[img];
         imgFile.click();
       },
+      selectImgPZ: function(event){
+        var evn = event;
+        wx.chooseImage({
+          count: 1, // 默认9
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+          success: function (res) {
+            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            var imgDiv = evn.target;
+            imgDiv.setAttribute('style', 'background: ' + 'url('+localIds+') no-repeat center center; background-size: contain');
+            wx.uploadImage({
+              localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+              isShowProgressTips: 1, // 默认为1，显示进度提示
+              success: function (res) {
+                var serverId = res.serverId; // 返回图片的服务器端ID
+                alert(serverId);
+              }
+            });
+//            console.info(localIds);
+//            var reader = new FileReader();
+//            reader.readAsDataURL(localIds);
+//            reader.onload=function(e){
+//              imgDiv.setAttribute('style', 'background: ' + 'url('+e.target.result+') no-repeat center center; background-size: contain');
+//            }
+          }
+        });
+      },
       changeImg: function(imgDiv){
-
-//        this.initWxConfig();
-//        return;
 
         var imgDiv = this.$refs[imgDiv];
         var imgFile = event.currentTarget.files[0];
@@ -164,17 +189,7 @@
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名
-                jsApiList: ["chooseImage"] //必填，需要使用的JS接口列表
-              });
-              wx.ready(function () {
-                wx.chooseImage({
-                  count: 1, // 默认9
-                  sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                  sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                  success: function (res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                  }
-                });
+                jsApiList: ["chooseImage","uploadImage"] //必填，需要使用的JS接口列表
               });
             } else {
               vm.$toast(response.msg);
