@@ -48,6 +48,24 @@
             <div class="arrow arrow1"></div>
           </dd>
         </dl>
+        <dl>
+          <dt>家庭住址</dt>
+          <dd>
+            <input type="text" class="text" v-model="data.cusUserInfo.homeAddr"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>单位名称</dt>
+          <dd>
+            <input type="text" class="text" v-model="data.cusUserInfo.companyName"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt>单位地址</dt>
+          <dd>
+            <input type="text" class="text" v-model="data.cusUserInfo.companyAddr"/>
+          </dd>
+        </dl>
       </div>
     </div>
     <div class="btns">
@@ -266,6 +284,18 @@
         }
         if(this.$tools.isNull(vm.data.cusUserLink.relationName)){
           vm.$toast("请选择联系人关系");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.cusUserInfo.homeAddr)){
+          vm.$toast("请填写家庭住址");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.cusUserInfo.companyName)){
+          vm.$toast("请填写公司名称");
+          return false;
+        }
+        if(this.$tools.isNull(vm.data.cusUserInfo.companyAddr)){
+          vm.$toast("请填写公司地址");
           return false;
         }
         return true;

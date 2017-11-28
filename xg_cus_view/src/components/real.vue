@@ -27,15 +27,15 @@
       <div class="imgs">
         <div class="imgbox">
           <div class="idno">
-            <div class="idno1" ref="realImgDiv1" v-on:click="selectImg('realImg1')"></div>
+            <div class="idno1" ref="realImgDiv1" v-on:click="selectImgPZ('realImg1Url')"></div>
             <label>身份证正面</label>
           </div>
           <div class="idno">
-            <div class="idno2" ref="realImgDiv2" v-on:click="selectImg('realImg2')"></div>
+            <div class="idno2" ref="realImgDiv2" v-on:click="selectImgPZ('realImg2Url')"></div>
             <label>身份证背面</label>
           </div>
           <div class="idno">
-            <div class="idno3" ref="realImgDiv3" v-on:click="selectImg('realImg3')"></div>
+            <div class="idno3" ref="realImgDiv3" v-on:click="selectImgPZ('realImg3Url')"></div>
             <label>手持身份证</label>
           </div>
           <input v-show="false" type="file" ref="realImg1" v-on:change="changeImg('realImgDiv1')"/>
@@ -84,22 +84,33 @@
         let imgFile = this.$refs[img];
         imgFile.click();
       },
-      selectImgPZ: function(event){
-        var evn = event;
+      selectImgPZ: function(img){
+        var vm = this;
+        var evn = window.event;
         wx.chooseImage({
           count: 1, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            var imgUrl = localIds[0];
             var imgDiv = evn.target;
-            imgDiv.setAttribute('style', 'background: ' + 'url('+localIds+') no-repeat center center; background-size: contain');
+            if (window.__wxjs_is_wkwebview) {
+              wx.getLocalImgData({
+                localId: imgUrl, // 图片的localID
+                success: function (res) {
+                  imgDiv.setAttribute('style', 'background: ' + 'url(' + res.localData + ') no-repeat center center; background-size: contain');
+                }
+              });
+            }else{
+              imgDiv.setAttribute('style', 'background: ' + 'url(' + imgUrl + ') no-repeat center center; background-size: contain');
+            }
             wx.uploadImage({
               localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
               isShowProgressTips: 1, // 默认为1，显示进度提示
               success: function (res) {
                 var serverId = res.serverId; // 返回图片的服务器端ID
-                alert(serverId);
+                vm.data[img] = serverId;
               }
             });
 //            console.info(localIds);
@@ -143,6 +154,8 @@
             localStorage.setItem("_cusName", vm.data.name);
             localStorage.setItem("_cusIdNo", vm.data.idNo);
             vm.$router.push("/creditapply");
+          } else if(response.bizCode == 1){
+            vm.$toast("身份信息不匹配");
           } else {
             vm.$toast(response.msg);
           }
@@ -162,15 +175,15 @@
           vm.$toast("请填写合法的身份证号");
           return false;
         }
-        if(vm.$refs.realImg1.value == ""){
+        if(this.$tools.isNull(vm.data.realImg1Url)){
           vm.$toast("请添加身份证正面");
           return false;
         }
-        if(vm.$refs.realImg2.value == ""){
+        if(this.$tools.isNull(vm.data.realImg2Url)){
           vm.$toast("请添加身份证背面");
           return false;
         }
-        if(vm.$refs.realImg3.value == ""){
+        if(this.$tools.isNull(vm.data.realImg3Url)){
           vm.$toast("请添加手持身份证");
           return false;
         }
