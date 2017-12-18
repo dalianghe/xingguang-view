@@ -94,7 +94,7 @@
         }
         vm.$indicator.open();
         this.smsTempCode = this.generateMixed(this.smsChars, 4);
-        this.$http.get('/sms/send/' + vm.data.phone + '/' + this.smsTempCode)
+        this.$http.get('/sms/send/login/' + vm.data.phone + '/' + this.smsTempCode)
           .then(function (response) {
             vm.$indicator.close();
             if (response.bizCode == 0) {

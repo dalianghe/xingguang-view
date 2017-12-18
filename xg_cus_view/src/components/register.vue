@@ -13,8 +13,12 @@
         <p v-show="smsFlag">
           <input type="text" v-model="data.smsCode" placeholder="短信验证码"/>
         </p>
-        <p id="smsSend" v-show="smsFlag">
-          <label @click="sendSms">未收到短信验证码？</label>
+        <p id="smsSend" class="cleans" v-show="smsFlag">
+          <span class="left">
+            <div class="unxieyi" v-bind:class="{ xieyi: xyFlag }" @click="xyChange"></div>
+            <router-link to="/explain/agreement/a0">我已阅读本协议</router-link>
+          </span>
+          <label class="right" @click="sendSms">未收到短信验证码？</label>
         </p>
         <p>
           <a class="bt" v-on:click="submit">确定</a>
@@ -54,6 +58,7 @@
     data() {
       return {
         smsFlag:false,
+        xyFlag:true,
         data: {
           phone: "",
           imgCode: "",
@@ -67,6 +72,7 @@
     },
     created: function () {
       this.data.workUserId = this.$route.params.key;
+      this.getInfo();
     },
     mounted: function () {
       this.getVerifyCode();
@@ -75,6 +81,31 @@
       cleanToken: function(){
         alert("清空");
         localStorage.clear();
+      },
+      getInfo: function (event) {
+        var vm = this;
+        this.$http.get('/cus/user/info')
+          .then(function (response) {
+            if (response.bizCode == 0) {
+              if(response.data != null && response.data != undefined){
+                localStorage.setItem("_cusName", response.data.name);
+                localStorage.setItem("_cusIdNo", response.data.idNo);
+                localStorage.setItem("_cusPhone", response.data.phone);
+                let realStatus = response.data.realStatus;
+                if(realStatus != 1){
+                  alert("您已注册-但未完成实名认证");
+                  vm.$router.push("/real/" + vm.$route.params.key);
+                  return;
+                }
+                let status = response.data.status;
+                if(status != 20){
+                  alert("您已注册-但未完成信息认证");
+                  vm.$router.push("/creditapply/" + vm.$route.params.key);
+                  return;
+                }
+              }
+            }
+          })
       },
       getVerifyCode: function(event){
         if(event && event.target != null){
@@ -108,7 +139,7 @@
         }
         vm.$indicator.open();
         this.smsTempCode = this.generateMixed(this.smsChars, 4);
-        this.$http.get('/sms/send/' + vm.data.phone + '/' + this.smsTempCode)
+        this.$http.get('/sms/send/login/' + vm.data.phone + '/' + this.smsTempCode)
           .then(function (response) {
             vm.$indicator.close();
             if (response.bizCode == 0) {
@@ -157,6 +188,9 @@
 //            })
         }
       },
+      xyChange: function(){
+        this.xyFlag = !this.xyFlag;
+      },
       submit: function (event) {
         var vm = this;
         if(vm.data.phone.length != 11) {
@@ -165,6 +199,10 @@
         }
         if(vm.smsTempCode == "" ||vm.smsTempCode != vm.data.smsCode){
           vm.$toast("验证码错误");
+          return;
+        }
+        if(!vm.xyFlag){
+          vm.$toast("您未同意本协议");
           return;
         }
         vm.data.openId = localStorage.getItem("_openId");
@@ -239,11 +277,37 @@
   }
 
   #smsSend{
+    position: relative;
     align-content: right;
     text-align:right;
     font-size: 0.5rem;
     color:#fff;
     line-height: 0.1rem;
+    height: 0.2rem;
+  }
+
+  #smsSend .left{
+    float: left;
+  }
+
+  .unxieyi{
+    display: inline-block;
+    height: 0.6rem;
+    width: 0.6rem;
+    margin-top: -0.4rem;
+    margin-right: 0.3rem;
+    background:url(/static/cus/img/c_bgx.png) no-repeat center center;
+    background-size: contain;
+  }
+
+  .xieyi{
+    background:url(/static/cus/img/c_gx.png) no-repeat center center;
+    background-size: contain;
+  }
+
+  #smsSend .right{
+    position: absolute;
+    right:0px;
   }
 
   .box .contentR .content1 input{

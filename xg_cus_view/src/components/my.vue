@@ -45,7 +45,7 @@
             <div class="arrow"></div>
           </div>
         </router-link>
-        <router-link class="url clears" to="/banks">
+        <router-link class="url clears" to="/explain/question">
           <div class="menu">
             <div class="icon icon6"></div>
             <div class="title">常见问题</div>
@@ -139,7 +139,7 @@
     right:0px;
   }
   .menus{
-    margin-top: 1rem;
+    margin-bottom: 1rem;
     background-color: #FFFFFF;
   }
   .url{

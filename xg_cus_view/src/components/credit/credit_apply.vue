@@ -31,6 +31,10 @@
         </dl>
       </div>
     </div>
+    <div class="xybox">
+      <div class="unxieyi" v-bind:class="{ xieyi: xyFlag }" @click="xyChange"></div>
+      <router-link to="/explain/agreement/a1">我已阅读本协议</router-link>
+    </div>
     <div class="btns">
       <div class="btnbox">
         <a v-show="authShow" v-on:click="cellAuth">运营商授权</a>
@@ -46,6 +50,7 @@
     name: 'credit_apply',
     data() {
       return {
+        xyFlag:true,
         data: {
           appId:""
         },
@@ -61,6 +66,9 @@
         cellShow: false
       }
     },
+    created: function(){
+      this.data.workUserId = this.$route.params.key;
+    },
     mounted: function () {
       console.info(wx);
       this.initWxConfig();
@@ -69,6 +77,10 @@
       cellAuth: function(){
         if(this.$tools.isNull(this.data.phonePwd)){
           this.$toast("请填写服务密码");
+          return;
+        }
+        if(!this.xyFlag){
+          this.$toast("您未同意本协议");
           return;
         }
         var vm = this;
@@ -94,6 +106,10 @@
         }
         if(this.queryCodeShow && this.$tools.isNull(this.data.queryPwd)){
           this.$toast("请填写查询密码");
+          return;
+        }
+        if(!this.xyFlag){
+          this.$toast("您未同意本协议");
           return;
         }
         var vm = this;
@@ -156,6 +172,9 @@
           vm.$toast(response.msg);
         }
       },
+      xyChange: function(){
+        this.xyFlag = !this.xyFlag;
+      },
       initWxConfig: function (event) {
         var vm = this;
         this.$http.get('/wx/getWxConfig')
@@ -198,5 +217,26 @@
   .box .bzimg{
     background:url(/static/cus/img/information/bz.png) no-repeat center center;
     background-size: 100% auto
+  }
+
+  .xybox{
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    font-size: 0.5rem;
+  }
+
+  .unxieyi{
+    display: inline-block;
+    height: 0.6rem;
+    width: 0.6rem;
+    margin-top: -0.4rem;
+    margin-right: 0.3rem;
+    background:url(/static/cus/img/c_bgx.png) no-repeat center center;
+    background-size: contain;
+  }
+
+  .xieyi{
+    background:url(/static/cus/img/c_gx.png) no-repeat center center;
+    background-size: contain;
   }
 </style>

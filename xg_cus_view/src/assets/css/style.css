@@ -161,6 +161,17 @@ dd {
   margin-top: 1.4rem;
 }
 
+.arrow2 {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 1rem;
+  transform: rotate(225deg);
+}
+
+.arrow2down {
+  transform: rotate(45deg);
+}
+
 .textleft {
   text-align: right;
 }

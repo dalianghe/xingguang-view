@@ -62,6 +62,9 @@
         sexShow: false
       }
     },
+    created: function(){
+      this.data.workUserId = this.$route.params.key;
+    },
     mounted: function () {
       this.initWxConfig();
     },

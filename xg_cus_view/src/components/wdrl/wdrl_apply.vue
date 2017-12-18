@@ -35,6 +35,10 @@
         </dl>
       </div>
     </div>
+    <div class="xybox">
+      <div class="unxieyi" v-bind:class="{ xieyi: xyFlag }" @click="xyChange"></div>
+      <router-link to="/explain/agreement/a2">我已阅读本协议</router-link>
+    </div>
     <div class="btns">
       <div class="btnbox">
         <a v-on:click="submit">确定</a>
@@ -50,7 +54,8 @@
       return {
         popupVisible:false,
         isInfoOk: false,
-        data: {},
+        xyFlag:true,
+        data: {amount:"", bankCardId:"", bankName:""},
         slots: [
           {
             flex: 1,
@@ -62,7 +67,11 @@
         bankName:""
       }
     },
+    created: function(){
+      this.data.workUserId = this.$route.params.key;
+    },
     mounted: function () {
+      this.setInit();
       this.getBankCords();
       this.getInfo();
     },
@@ -87,7 +96,24 @@
             }
           })
       },
+      setInit: function(){
+        let wdrlAmount = sessionStorage.getItem("t_wdrl_apply_amount");
+        if(wdrlAmount){
+          this.data.amount = wdrlAmount;
+        }
+        let wdrlBankCardId = sessionStorage.getItem("t_wdrl_apply_bankCardId");
+        if(wdrlBankCardId){
+          this.data.bankCardId = wdrlBankCardId;
+          this.data.bankName = sessionStorage.getItem("t_wdrl_apply_bankName");
+        }
+        sessionStorage.removeItem("t_wdrl_apply_amount");
+        sessionStorage.removeItem("t_wdrl_apply_bankCardId");
+        sessionStorage.removeItem("t_wdrl_apply_bankName");
+      },
       goInfo: function(){
+        sessionStorage.setItem("t_wdrl_apply_amount", this.data.amount);
+        sessionStorage.setItem("t_wdrl_apply_bankCardId", this.data.bankCardId);
+        sessionStorage.setItem("t_wdrl_apply_bankName", this.data.bankName);
         this.$router.push("/info");
       },
       selectBankCard : function(){
@@ -95,6 +121,7 @@
         var vm = this;
         if(vm.slots[0].values == 0){
           vm.$messagebox.confirm('您尚未绑定银行卡,前往绑定?').then(action => {
+            sessionStorage.setItem("t_wdrl_apply_amount", this.data.amount);
             vm.$router.push("/addbank");
           }).catch(err => {});
           return;
@@ -147,6 +174,9 @@
             }
           })
       },
+      xyChange: function(){
+        this.xyFlag = !this.xyFlag;
+      },
       validate : function(){
         var vm = this;
         if(this.$tools.isNull(vm.data.amount)){
@@ -157,6 +187,10 @@
           vm.$toast("请选择账户");
           return false;
         }
+        if(!vm.xyFlag){
+          vm.$toast("您未同意本协议");
+          return;
+        }
         return true;
       }
     }
@@ -164,5 +198,24 @@
 </script>
 
 <style scoped>
+  .xybox{
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    font-size: 0.5rem;
+  }
 
+  .unxieyi{
+    display: inline-block;
+    height: 0.6rem;
+    width: 0.6rem;
+    margin-top: -0.4rem;
+    margin-right: 0.3rem;
+    background:url(/static/cus/img/c_bgx.png) no-repeat center center;
+    background-size: contain;
+  }
+
+  .xieyi{
+    background:url(/static/cus/img/c_gx.png) no-repeat center center;
+    background-size: contain;
+  }
 </style>

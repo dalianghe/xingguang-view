@@ -23,6 +23,11 @@ var router = new Router({
       component: resolve => require(['../components/real.vue'], resolve)
     },
     {
+      path: '/real/:key',
+        name: 'real',
+      component: resolve => require(['../components/real.vue'], resolve)
+    },
+    {
       path: '/banklist',
       name: 'banklist',
       component: resolve => require(['../components/bankcard/bank_list.vue'], resolve)
@@ -40,6 +45,11 @@ var router = new Router({
     {
       path: '/creditapply',
       name: 'creditapply',
+      component: resolve => require(['../components/credit/credit_apply.vue'], resolve)
+    },
+    {
+      path: '/creditapply/:key',
+        name: 'creditapply',
       component: resolve => require(['../components/credit/credit_apply.vue'], resolve)
     },
     {
@@ -86,6 +96,16 @@ var router = new Router({
       path: '/common/ok/:key',
         name: 'ok',
       component: resolve => require(['../components/common/ok.vue'], resolve)
+    },
+    {
+      path: '/explain/question',
+        name: 'question',
+      component: resolve => require(['../components/explain/question.vue'], resolve)
+    },
+    {
+      path: '/explain/agreement/:key',
+        name: 'agreement',
+      component: resolve => require(['../components/explain/agreement.vue'], resolve)
     }
   ]
 })
